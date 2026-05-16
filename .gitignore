@@ -1,8 +1,26 @@
+# Environment & secrets
 .env
+
+# Python
 .venv/
 __pycache__/
 *.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Agent state (regenerated at runtime)
 state/
 sandbox/
 usage.json
+
+# IDE / editor
 .ruff_cache/
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
