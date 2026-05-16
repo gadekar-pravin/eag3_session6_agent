@@ -13,6 +13,7 @@ build/
 # Agent state (regenerated at runtime)
 sandbox/
 usage.json
+terminal_output.txt
 
 # IDE / editor
 .ruff_cache/
