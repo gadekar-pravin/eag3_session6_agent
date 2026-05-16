@@ -11,6 +11,10 @@ This repository implements the Session 6 role-based agent architecture:
 - `orchestrator.py` — the orchestration loop
 - `mcp_server.py` — stdio MCP server from the session notes
 
+## Architecture Overview
+
+![Agent Loop Runner Infographic](infographic.png)
+
 ## Important note about LLM calls
 
 This build intentionally does **not** use LLM Gateway V3. The working instruction for this version is: **"The LLM Gateway is NOT required, ignore it."**
