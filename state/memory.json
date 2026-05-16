@@ -1,0 +1,121 @@
+[
+  {
+    "id": "mem_ca0808d0",
+    "kind": "tool_outcome",
+    "keywords": [
+      "web_search",
+      "query",
+      "max_results",
+      "practices",
+      "best",
+      "asyncio",
+      "python",
+      "web_search",
+      "15ada67761f7599b",
+      "query",
+      "max_results",
+      "practices",
+      "best",
+      "produced",
+      "asyncio",
+      "art",
+      "python"
+    ],
+    "descriptor": "web_search({\"max_results\": 3, \"query\": \"Python asyncio best practices\"}) produced art:15ada67761f7599b.",
+    "value": {
+      "tool": "web_search",
+      "arguments": {
+        "query": "Python asyncio best practices",
+        "max_results": 3
+      }
+    },
+    "artifact_id": "art:15ada67761f7599b",
+    "source": "action",
+    "run_id": "2d46c030",
+    "goal_id": "1",
+    "confidence": 1.0,
+    "created_at": "2026-05-16T11:43:33.888851Z"
+  },
+  {
+    "id": "mem_b2a2ea2e",
+    "kind": "tool_outcome",
+    "keywords": [
+      "fetch_url",
+      "com",
+      "url",
+      "https",
+      "www",
+      "pitfalls",
+      "shanechang",
+      "practices",
+      "best",
+      "asyncio",
+      "python",
+      "com",
+      "9789cf2120a911cd",
+      "url",
+      "https",
+      "www",
+      "pitfalls",
+      "shanechang",
+      "practices",
+      "produced",
+      "best",
+      "fetch_url",
+      "asyncio",
+      "art",
+      "python"
+    ],
+    "descriptor": "fetch_url({\"url\": \"https://www.shanechang.com/p/python-asyncio-best-practices-pitfalls/\"}) produced art:9789cf2120a911cd.",
+    "value": {
+      "tool": "fetch_url",
+      "arguments": {
+        "url": "https://www.shanechang.com/p/python-asyncio-best-practices-pitfalls/"
+      }
+    },
+    "artifact_id": "art:9789cf2120a911cd",
+    "source": "action",
+    "run_id": "2d46c030",
+    "goal_id": "2",
+    "confidence": 1.0,
+    "created_at": "2026-05-16T11:44:13.359302Z"
+  },
+  {
+    "id": "mem_973842c3",
+    "kind": "tool_outcome",
+    "keywords": [
+      "fetch_url",
+      "com",
+      "url",
+      "https",
+      "realpython",
+      "async",
+      "io",
+      "python",
+      "com",
+      "30e2122eff43c08b",
+      "url",
+      "https",
+      "realpython",
+      "async",
+      "io",
+      "produced",
+      "fetch_url",
+      "art",
+      "python"
+    ],
+    "descriptor": "fetch_url({\"url\": \"https://realpython.com/async-io-python/\"}) produced art:30e2122eff43c08b.",
+    "value": {
+      "tool": "fetch_url",
+      "arguments": {
+        "url": "https://realpython.com/async-io-python/"
+      }
+    },
+    "artifact_id": "art:30e2122eff43c08b",
+    "source": "action",
+    "run_id": "2d46c030",
+    "goal_id": "3",
+    "confidence": 1.0,
+    "created_at": "2026-05-16T11:45:06.758823Z"
+  }
+]

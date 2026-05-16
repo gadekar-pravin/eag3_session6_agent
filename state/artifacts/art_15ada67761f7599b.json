@@ -1,0 +1,8 @@
+{
+  "id": "art:15ada67761f7599b",
+  "content_type": "text/plain; charset=utf-8",
+  "size_bytes": 6145,
+  "source": "web_search",
+  "descriptor": "[artifact produced by web_search, 6145 bytes] preview: {   \"title\": \"Asyncio Best Practices and Common Pitfalls\",   \"url\": \"https://www.shanechang.com/p/python-asyncio-best-practices-pitfalls/\",   \"snippet\": \"Featured image of post Asyncio Best Practices and Common Pitfalls\\n\\nPython Concurrency\\n\\n## Asyncio Best Practices and Common Pitfalls\\n\\n### Learn the essential best practices and avoid common mistakes when working with Python's asyncio library\\n\\n## Writing Better Asyncio Code: Dos and Don’ts\\n\\nPython’s asyncio library is powerful but comes with its own set of conventions and potential pitfalls. Let’s explore the best practices to follow and common mistakes to avoid.\\n\\n### Best Practices\\n\\n#### 1. Use `asyncio.run()` as Your Main Ent",
+  "created_at": "2026-05-16T11:45:10.330761Z"
+}
