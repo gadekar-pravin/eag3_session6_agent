@@ -13,6 +13,7 @@ from rich.console import Console
 from rich.markup import escape
 from rich.panel import Panel
 from rich.rule import Rule
+from rich.tree import Tree
 
 from action import Action, ArtifactStore
 from decision import Decision
@@ -66,6 +67,25 @@ def tool_specs_from_mcp(list_tools_result) -> list[ToolSpec]:
         schema = getattr(tool, "inputSchema", None) or getattr(tool, "input_schema", None) or {}
         specs.append(ToolSpec(name=name, description=description, input_schema=schema))
     return specs
+
+
+def _print_trace_tree(history: list[HistoryEvent]) -> None:
+    tool_count = sum(1 for e in history if e.kind == "action")
+    header = f"🔄 Execution Trace ({len(history)} iterations · {tool_count} tool call(s))"
+    tree = Tree(header)
+    for event in history:
+        goal = event.goal_text or ""
+        if len(goal) > 60:
+            goal = goal[:60] + "…"
+        branch = tree.add(f"Iter {event.iter} · {escape(goal)}")
+        flow = "🧠 Memory → 👁️ Perception → 🤔 Decision → "
+        if event.kind == "action":
+            status = "✓" if event.ok else "✗"
+            flow += f"⚡ Action({escape(event.tool or '?')}) {status}"
+        else:
+            flow += "💡 Answer ✓"
+        branch.add(flow)
+    _con.print(tree)
 
 
 async def run(
@@ -248,6 +268,8 @@ async def run(
     if trace:
         _con.print()
         _con.print(Panel(escape(answer), title="✨ FINAL", border_style="green"))
+        if history:
+            _print_trace_tree(history)
     return answer
 
 
