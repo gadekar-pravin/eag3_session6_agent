@@ -5,7 +5,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 ## Commands
 
 - Install: `uv sync` then `uv run playwright install chromium` (required for fetch_url)
-- Run agent: `uv run python agent6.py --clean "<query>"` (--clean resets state before running)
+- Run agent: `uv run python orchestrator.py --clean "<query>"` (--clean resets state before running)
 - Run all test queries: `./scripts/run_all.sh`
 - Clean state: `./scripts/clean_state.sh`
 - Lint: `uv run ruff check .`
@@ -23,7 +23,7 @@ Four cognitive layers with Pydantic v2 typed contracts at every boundary (schema
 
 LLM abstraction in `llm.py`: centralizes all Gemini SDK calls with structured JSON output, auto-repair on validation failure, and temperature 0.1.
 
-Orchestration loop in `agent6.py` (max 14 iterations): Memory.read → Perception.observe → Decision.next_step → Action.execute.
+Orchestration loop in `orchestrator.py` (max 14 iterations): Memory.read → Perception.observe → Decision.next_step → Action.execute.
 
 ## Key Conventions
 

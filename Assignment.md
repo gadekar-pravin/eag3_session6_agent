@@ -5,7 +5,7 @@ Code: mcp_server.py, needs .env file and must install ddgs, crawl4ai and tavily
 
 ### Required.
 
-- Four code modules with clear separation of concerns: memory.py, perception.py, decision.py, action.py. Plus an agent6.py (or any name) that wires them together in a loop. Plus a schemas.py containing the Pydantic models. Plus the MCP server from earlier sessions.
+- Four code modules with clear separation of concerns: memory.py, perception.py, decision.py, action.py. Plus an orchestrator.py that wires them together in a loop. Plus a schemas.py containing the Pydantic models. Plus the MCP server from earlier sessions.
 - All four target queries must produce correct final answers. The expected answers and iteration counts are documented above. Queries that exceed twice the expected iteration count are not considered passing; tune the prompts and the contracts until convergence is within bounds.
 - Memory must persist across runs in a file under state/. Query C requires the durable-memory behaviour: run 1 records the fact, run 2 reads it.
 - The four cognitive layers must each be backed by typed Pydantic contracts on their inputs and outputs. No free-form dict passing between roles. No regex on LLM output.

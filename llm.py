@@ -30,7 +30,7 @@ def _client() -> genai.Client:
 def _missing_key_message() -> str:
     return (
         "GEMINI_API_KEY is required for Gemini-backed Perception and Decision. "
-        "Add it to .env or export it before running agent6.py."
+        "Add it to .env or export it before running orchestrator.py."
     )
 
 

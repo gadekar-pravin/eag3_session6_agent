@@ -8,7 +8,7 @@ This repository implements the Session 6 role-based agent architecture:
 - `action.py` — pure MCP dispatch and artifact storage
 - `llm.py` — direct Gemini Flash-Lite structured-output helper
 - `schemas.py` — Pydantic v2 contracts at every role boundary
-- `agent6.py` — the orchestration loop
+- `orchestrator.py` — the orchestration loop
 - `mcp_server.py` — stdio MCP server from the session notes
 
 ## Important note about LLM calls
@@ -55,7 +55,7 @@ The assignment requires the state directory to be cleanable. Use:
 or run any query with `--clean`:
 
 ```bash
-uv run python agent6.py --clean "When is mom's birthday?"
+uv run python orchestrator.py --clean "When is mom's birthday?"
 ```
 
 The following paths are intentionally ignored by git:
@@ -70,7 +70,7 @@ The following paths are intentionally ignored by git:
 ### Query A — Claude Shannon artifact attach test
 
 ```bash
-uv run python agent6.py --clean "Fetch https://en.wikipedia.org/wiki/Claude_Shannon and tell me his birth date, death date, and three key contributions to information theory."
+uv run python orchestrator.py --clean "Fetch https://en.wikipedia.org/wiki/Claude_Shannon and tell me his birth date, death date, and three key contributions to information theory."
 ```
 
 Expected final answer shape:
@@ -89,7 +89,7 @@ Expected loop behavior: fetch page, store large fetch as an artifact, attach art
 ### Query B — Tokyo activities with weather constraint
 
 ```bash
-uv run python agent6.py --clean "Find 3 family-friendly things to do in Tokyo this weekend. Check Saturday's weather forecast there and tell me which one is most appropriate."
+uv run python orchestrator.py --clean "Find 3 family-friendly things to do in Tokyo this weekend. Check Saturday's weather forecast there and tell me which one is most appropriate."
 ```
 
 Expected final answer shape:
@@ -110,7 +110,7 @@ Expected loop behavior: search activities, fetch Tokyo weather, select the most 
 Run 1:
 
 ```bash
-uv run python agent6.py --clean "My mom's birthday is 15 May 2026. Remember that and give me a calendar reminder for two weeks before and on the day."
+uv run python orchestrator.py --clean "My mom's birthday is 15 May 2026. Remember that and give me a calendar reminder for two weeks before and on the day."
 ```
 
 Expected final answer:
@@ -122,7 +122,7 @@ Mom's birthday on 15 May 2026 is recorded, with reminders created for two weeks 
 Run 2, without cleaning state:
 
 ```bash
-uv run python agent6.py "When is mom's birthday?"
+uv run python orchestrator.py "When is mom's birthday?"
 ```
 
 Expected final answer:
@@ -136,7 +136,7 @@ Expected loop behavior: run 1 stores a durable `fact` in `state/memory.json` and
 ### Query D — asyncio multi-source synthesis
 
 ```bash
-uv run python agent6.py --clean "Search for 'Python asyncio best practices', read the top 3 results, and give me a short numbered list of the advice they agree on."
+uv run python orchestrator.py --clean "Search for 'Python asyncio best practices', read the top 3 results, and give me a short numbered list of the advice they agree on."
 ```
 
 Expected final answer shape:

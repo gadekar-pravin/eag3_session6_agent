@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [project.scripts]
-agent6 = "agent6:main"
+orchestrator = "orchestrator:main"
 
 [tool.uv]
 package = false
