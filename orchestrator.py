@@ -4,6 +4,7 @@ import argparse
 import asyncio
 import shutil
 import sys
+import time
 from pathlib import Path
 from uuid import uuid4
 
@@ -69,9 +70,10 @@ def tool_specs_from_mcp(list_tools_result) -> list[ToolSpec]:
     return specs
 
 
-def _print_trace_tree(history: list[HistoryEvent]) -> None:
+def _print_trace_tree(history: list[HistoryEvent], total_elapsed: float = 0.0) -> None:
     tool_count = sum(1 for e in history if e.kind == "action")
-    header = f"🔄 Execution Trace ({len(history)} iterations · {tool_count} tool call(s))"
+    time_str = f" · {total_elapsed:.1f}s total" if total_elapsed else ""
+    header = f"🔄 Execution Trace ({len(history)} iterations · {tool_count} tool call(s){time_str})"
     tree = Tree(header)
     for event in history:
         goal = event.goal_text or ""
@@ -98,6 +100,7 @@ async def run(
     repo_dir = Path(__file__).resolve().parent
     run_id = uuid4().hex[:8]
     require_gemini_configured()
+    run_start = time.perf_counter()
 
     memory = Memory(state_dir)
     artifacts = ArtifactStore(state_dir)
@@ -125,7 +128,13 @@ async def run(
             mcp_tools = tool_specs_from_mcp(await session.list_tools())
 
             for iteration in range(1, max_iterations + 1):
+                iter_start = time.perf_counter()
+
+                t0 = time.perf_counter()
                 hits = memory.read(MemoryReadInput(query=query, history=history, top_k=12)).hits
+                t_memory = time.perf_counter() - t0
+
+                t0 = time.perf_counter()
                 obs = perception.observe(
                     PerceptionInput(
                         query=query,
@@ -135,24 +144,28 @@ async def run(
                         run_id=run_id,
                     )
                 ).observation
+                t_perception = time.perf_counter() - t0
                 prior_goals = obs.goals
 
                 if trace:
                     _con.print()
                     _con.print(Rule(f"iter {iteration}", style="dim"))
-                    _con.print(f"{_label('memory.read', 'cyan', '🧠')} {len(hits)} hit(s)")
-                    for g in prior_goals:
+                    mem_lbl = _label("memory.read", "cyan", "🧠")
+                    _con.print(f"{mem_lbl} {len(hits)} hit(s) [dim]({t_memory:.2f}s)[/]")
+                    for i, g in enumerate(prior_goals):
                         icon = "[green]✓[/]" if g.done else "[yellow]○[/]"
                         attach = g.all_attachment_ids()
                         suffix = f" [dim]attach={attach}[/]" if attach else ""
                         lbl = _label("perception", "magenta", "👁️")
-                        _con.print(f"{lbl} {icon} {escape(g.text)}{suffix}")
+                        tsuf = f" [dim]({t_perception:.2f}s)[/]" if i == 0 else ""
+                        _con.print(f"{lbl} {icon} {escape(g.text)}{suffix}{tsuf}")
 
                 if obs.all_done:
                     if not any(e.kind == "answer" for e in history):
                         # All goals satisfied from memory — still need Decision
                         # to formulate a user-facing answer.
                         last_goal = obs.goals[-1]
+                        t0 = time.perf_counter()
                         decision_out = decision.next_step(
                             DecisionInput(
                                 query=query,
@@ -163,10 +176,12 @@ async def run(
                                 tools=mcp_tools,
                             )
                         )
+                        t_decision = time.perf_counter() - t0
                         if decision_out.is_answer and decision_out.answer:
                             if trace:
                                 ans = escape(decision_out.answer[:500])
-                                _con.print(f"{_label('decision', 'yellow', '🤔')} ANSWER: {ans}")
+                                dec_lbl = _label("decision", "yellow", "🤔")
+                                _con.print(f"{dec_lbl} ANSWER: {ans} [dim]({t_decision:.2f}s)[/]")
                             history.append(
                                 HistoryEvent(
                                     iter=iteration,
@@ -177,6 +192,8 @@ async def run(
                                 )
                             )
                     if trace:
+                        iter_elapsed = time.perf_counter() - iter_start
+                        _con.print(f"⏱️  iter {iteration} total: {iter_elapsed:.2f}s")
                         _con.print("[bold green]✅ all goals satisfied[/]")
                     break
 
@@ -193,6 +210,7 @@ async def run(
                             aid = escape(artifact_id)
                             _con.print(f"[dim italic]📎 {aid} ({size} bytes)[/]")
 
+                t0 = time.perf_counter()
                 decision_out = decision.next_step(
                     DecisionInput(
                         query=query,
@@ -203,12 +221,14 @@ async def run(
                         tools=mcp_tools,
                     )
                 )
+                t_decision = time.perf_counter() - t0
 
                 if decision_out.is_answer:
                     assert decision_out.answer is not None
                     if trace:
                         ans = escape(decision_out.answer[:500])
-                        _con.print(f"{_label('decision', 'yellow', '🤔')} ANSWER: {ans}")
+                        dec_lbl = _label("decision", "yellow", "🤔")
+                        _con.print(f"{dec_lbl} ANSWER: {ans} [dim]({t_decision:.2f}s)[/]")
                     history.append(
                         HistoryEvent(
                             iter=iteration,
@@ -218,6 +238,9 @@ async def run(
                             text=decision_out.answer,
                         )
                     )
+                    if trace:
+                        iter_elapsed = time.perf_counter() - iter_start
+                        _con.print(f"⏱️  iter {iteration} total: {iter_elapsed:.2f}s")
                     continue
 
                 assert decision_out.tool_call is not None
@@ -225,10 +248,13 @@ async def run(
                     tc = decision_out.tool_call
                     name = f"[bold]{escape(tc.name)}[/]"
                     args = f"[dim]{escape(str(tc.arguments))}[/]"
-                    _con.print(f"{_label('decision', 'yellow', '🤔')} TOOL_CALL: {name}({args})")
+                    dec_lbl = _label("decision", "yellow", "🤔")
+                    _con.print(f"{dec_lbl} TOOL_CALL: {name}({args}) [dim]({t_decision:.2f}s)[/]")
+                t0 = time.perf_counter()
                 action_out = await action.execute(
                     session, ActionInput(tool_call=decision_out.tool_call)
                 )
+                t_action = time.perf_counter() - t0
                 memory.record_outcome(
                     MemoryOutcomeInput(
                         tool_call=decision_out.tool_call,
@@ -241,7 +267,8 @@ async def run(
                 if trace:
                     status_tag = "[green]ok[/]" if action_out.ok else "[red]error[/]"
                     desc = escape(action_out.descriptor[:700])
-                    _con.print(f"{_label('action', 'blue', '⚡')} {status_tag}: {desc}")
+                    act_lbl = _label("action", "blue", "⚡")
+                    _con.print(f"{act_lbl} {status_tag}: {desc} [dim]({t_action:.2f}s)[/]")
                 history.append(
                     HistoryEvent(
                         iter=iteration,
@@ -260,6 +287,9 @@ async def run(
                         ok=action_out.ok,
                     )
                 )
+                if trace:
+                    iter_elapsed = time.perf_counter() - iter_start
+                    _con.print(f"⏱️  iter {iteration} total: {iter_elapsed:.2f}s")
             else:
                 if trace:
                     _con.print(f"[bold red]🛑 max iterations reached: {max_iterations}[/]")
@@ -268,8 +298,10 @@ async def run(
     if trace:
         _con.print()
         _con.print(Panel(escape(answer), title="✨ FINAL", border_style="green"))
+        total_elapsed = time.perf_counter() - run_start
         if history:
-            _print_trace_tree(history)
+            _print_trace_tree(history, total_elapsed)
+        _con.print(f"⏱️  total: {total_elapsed:.2f}s")
     return answer
 
 
