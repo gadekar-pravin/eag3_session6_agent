@@ -9,6 +9,10 @@ from uuid import uuid4
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
+from rich.console import Console
+from rich.markup import escape
+from rich.panel import Panel
+from rich.rule import Rule
 
 from action import Action, ArtifactStore
 from decision import Decision
@@ -27,6 +31,13 @@ from schemas import (
 )
 
 MAX_ITERATIONS = 14
+
+_con = Console(highlight=False)
+_err = Console(stderr=True, highlight=False)
+
+
+def _label(name: str, color: str) -> str:
+    return f"[bold {color}]{name}[/]"
 
 
 def clean_state(repo_dir: Path) -> None:
@@ -77,9 +88,9 @@ async def run(
         MemoryRememberInput(raw_text=query, source="user_query", run_id=run_id)
     ).stored
     if trace and stored:
-        print(f"[memory.remember] stored {len(stored)} item(s):")
+        _con.print(f"{_label('memory.remember', 'cyan')} stored {len(stored)} item(s):")
         for item in stored:
-            print(f"  - {item.kind}: {item.descriptor}")
+            _con.print(f"  [dim]-[/] {escape(item.kind)}: {escape(item.descriptor)}")
 
     history: list[HistoryEvent] = []
     prior_goals = []
@@ -106,13 +117,15 @@ async def run(
                 prior_goals = obs.goals
 
                 if trace:
-                    print(f"\n--- iter {iteration} ---")
-                    print(f"[memory.read] {len(hits)} hit(s)")
+                    _con.print()
+                    _con.print(Rule(f"iter {iteration}", style="dim"))
+                    _con.print(f"{_label('memory.read', 'cyan')} {len(hits)} hit(s)")
                     for g in prior_goals:
-                        status = "done" if g.done else "open"
+                        icon = "[green]✓[/]" if g.done else "[yellow]○[/]"
                         attach = g.all_attachment_ids()
-                        suffix = f" attach={attach}" if attach else ""
-                        print(f"[perception] [{status}] {g.text}{suffix}")
+                        suffix = f" [dim]attach={attach}[/]" if attach else ""
+                        lbl = _label("perception", "magenta")
+                        _con.print(f"{lbl} {icon} {escape(g.text)}{suffix}")
 
                 if obs.all_done:
                     if not any(e.kind == "answer" for e in history):
@@ -131,7 +144,8 @@ async def run(
                         )
                         if decision_out.is_answer and decision_out.answer:
                             if trace:
-                                print(f"[decision] ANSWER: {decision_out.answer[:500]}")
+                                ans = escape(decision_out.answer[:500])
+                                _con.print(f"{_label('decision', 'yellow')} ANSWER: {ans}")
                             history.append(
                                 HistoryEvent(
                                     iter=iteration,
@@ -142,7 +156,7 @@ async def run(
                                 )
                             )
                     if trace:
-                        print("[done] all goals satisfied")
+                        _con.print("[bold green]\\[done] all goals satisfied[/]")
                     break
 
                 goal = obs.next_unfinished()
@@ -155,7 +169,8 @@ async def run(
                         attached[artifact_id] = artifacts.get_text(artifact_id)
                         if trace:
                             size = len(attached[artifact_id].encode("utf-8"))
-                            print(f"[attach] {artifact_id} ({size} bytes)")
+                            aid = escape(artifact_id)
+                            _con.print(f"[dim italic]\\[attach] {aid} ({size} bytes)[/]")
 
                 decision_out = decision.next_step(
                     DecisionInput(
@@ -171,7 +186,8 @@ async def run(
                 if decision_out.is_answer:
                     assert decision_out.answer is not None
                     if trace:
-                        print(f"[decision] ANSWER: {decision_out.answer[:500]}")
+                        ans = escape(decision_out.answer[:500])
+                        _con.print(f"{_label('decision', 'yellow')} ANSWER: {ans}")
                     history.append(
                         HistoryEvent(
                             iter=iteration,
@@ -186,7 +202,9 @@ async def run(
                 assert decision_out.tool_call is not None
                 if trace:
                     tc = decision_out.tool_call
-                    print(f"[decision] TOOL_CALL: {tc.name}({tc.arguments})")
+                    name = f"[bold]{escape(tc.name)}[/]"
+                    args = f"[dim]{escape(str(tc.arguments))}[/]"
+                    _con.print(f"{_label('decision', 'yellow')} TOOL_CALL: {name}({args})")
                 action_out = await action.execute(
                     session, ActionInput(tool_call=decision_out.tool_call)
                 )
@@ -200,8 +218,9 @@ async def run(
                     )
                 )
                 if trace:
-                    status = "ok" if action_out.ok else "error"
-                    print(f"[action] {status}: {action_out.descriptor[:700]}")
+                    status_tag = "[green]ok[/]" if action_out.ok else "[red]error[/]"
+                    desc = escape(action_out.descriptor[:700])
+                    _con.print(f"{_label('action', 'blue')} {status_tag}: {desc}")
                 history.append(
                     HistoryEvent(
                         iter=iteration,
@@ -222,12 +241,12 @@ async def run(
                 )
             else:
                 if trace:
-                    print(f"[stop] max iterations reached: {max_iterations}")
+                    _con.print(f"[bold red]\\[stop] max iterations reached: {max_iterations}[/]")
 
     answer = final_answer_from(history)
     if trace:
-        print("\nFINAL:")
-        print(answer)
+        _con.print()
+        _con.print(Panel(escape(answer), title="FINAL", border_style="green"))
     return answer
 
 
@@ -265,7 +284,7 @@ def main() -> None:
     except RuntimeError as exc:
         if "GEMINI_API_KEY" not in str(exc):
             raise
-        print(f"ERROR: {exc}", file=sys.stderr)
+        _err.print(f"[bold red]ERROR:[/] {escape(str(exc))}")
         raise SystemExit(1) from None
     if args.quiet:
         print(answer)
