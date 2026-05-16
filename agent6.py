@@ -12,6 +12,7 @@ from mcp.client.stdio import stdio_client
 
 from action import Action, ArtifactStore
 from decision import Decision
+from llm import require_gemini_configured
 from memory import Memory
 from perception import Perception
 from schemas import (
@@ -64,6 +65,7 @@ async def run(
 ) -> str:
     repo_dir = Path(__file__).resolve().parent
     run_id = uuid4().hex[:8]
+    require_gemini_configured()
 
     memory = Memory(state_dir)
     artifacts = ArtifactStore(state_dir)
@@ -113,6 +115,32 @@ async def run(
                         print(f"[perception] [{status}] {g.text}{suffix}")
 
                 if obs.all_done:
+                    if not any(e.kind == "answer" for e in history):
+                        # All goals satisfied from memory — still need Decision
+                        # to formulate a user-facing answer.
+                        last_goal = obs.goals[-1]
+                        decision_out = decision.next_step(
+                            DecisionInput(
+                                query=query,
+                                goal=last_goal,
+                                hits=hits,
+                                attached_artifacts={},
+                                history=history,
+                                tools=mcp_tools,
+                            )
+                        )
+                        if decision_out.is_answer and decision_out.answer:
+                            if trace:
+                                print(f"[decision] ANSWER: {decision_out.answer[:500]}")
+                            history.append(
+                                HistoryEvent(
+                                    iter=iteration,
+                                    kind="answer",
+                                    goal_id=last_goal.id,
+                                    goal_text=last_goal.text,
+                                    text=decision_out.answer,
+                                )
+                            )
                     if trace:
                         print("[done] all goals satisfied")
                     break
@@ -207,12 +235,14 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run the EAG3 Session 6 agent loop.")
     parser.add_argument("query", nargs="+", help="Target query to run")
     parser.add_argument(
-        "--state-dir", default="state",
+        "--state-dir",
+        default="state",
         help="Directory for durable memory and artifacts",
     )
     parser.add_argument("--max-iterations", type=int, default=MAX_ITERATIONS)
     parser.add_argument(
-        "--clean", action="store_true",
+        "--clean",
+        action="store_true",
         help="Delete state/, sandbox/ and usage.json before running",
     )
     parser.add_argument("--quiet", action="store_true", help="Only print the final answer")
@@ -223,10 +253,20 @@ def main() -> None:
         clean_state(repo_dir)
 
     query = " ".join(args.query)
-    answer = asyncio.run(
-        run(query, state_dir=args.state_dir,
-            max_iterations=args.max_iterations, trace=not args.quiet)
-    )
+    try:
+        answer = asyncio.run(
+            run(
+                query,
+                state_dir=args.state_dir,
+                max_iterations=args.max_iterations,
+                trace=not args.quiet,
+            )
+        )
+    except RuntimeError as exc:
+        if "GEMINI_API_KEY" not in str(exc):
+            raise
+        print(f"ERROR: {exc}", file=sys.stderr)
+        raise SystemExit(1) from None
     if args.quiet:
         print(answer)
 

@@ -12,6 +12,7 @@ build/
 
 # Agent state (regenerated at runtime)
 state/
+tmp_state/
 sandbox/
 usage.json
 

@@ -1,7 +1,7 @@
 [project]
 name = "eag3-session6-agent"
 version = "0.1.0"
-description = "Session 6 agent architecture assignment implementation without the LLM Gateway"
+description = "Session 6 agent architecture assignment implementation with Gemini Flash-Lite"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -12,6 +12,7 @@ dependencies = [
     "ddgs>=9.0.0",
     "crawl4ai>=0.6.0",
     "tavily-python>=0.5.0",
+    "google-genai>=2.3.0",
 ]
 
 [project.scripts]

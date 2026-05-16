@@ -1,5 +1,6 @@
 {
   "perception_pop": {
+    "llm_model": "gemini-3.1-flash-lite",
     "input_contract": "PerceptionInput",
     "output_contract": "PerceptionOutput",
     "example_input": {
@@ -31,6 +32,7 @@
     }
   },
   "decision_pop": {
+    "llm_model": "gemini-3.1-flash-lite",
     "input_contract": "DecisionInput",
     "output_contract": "DecisionOutput",
     "example_input_goal": "Fetch the Wikipedia page for Claude Shannon",

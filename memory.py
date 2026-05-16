@@ -181,7 +181,8 @@ class Memory:
         # the assignment phrasing and a few nearby variants.
         pattern = re.compile(
             r"(?P<entity>mom|mother|mum|john|[A-Za-z]+)'?s?\s+birthday\s+is\s+"
-            r"(?P<day>\d{1,2})\s+(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})",
+            r"(?:on\s+)?(?P<day>\d{1,2})(?:st|nd|rd|th)?\s+"
+            r"(?P<month>[A-Za-z]+)\s+(?P<year>\d{4})",
             re.IGNORECASE,
         )
         match = pattern.search(text)
