@@ -36,8 +36,9 @@ _con = Console(highlight=False)
 _err = Console(stderr=True, highlight=False)
 
 
-def _label(name: str, color: str) -> str:
-    return f"[bold {color}]{name}[/]"
+def _label(name: str, color: str, emoji: str = "") -> str:
+    prefix = f"{emoji} " if emoji else ""
+    return f"{prefix}[bold {color}]{name}[/]"
 
 
 def clean_state(repo_dir: Path) -> None:
@@ -88,7 +89,7 @@ async def run(
         MemoryRememberInput(raw_text=query, source="user_query", run_id=run_id)
     ).stored
     if trace and stored:
-        _con.print(f"{_label('memory.remember', 'cyan')} stored {len(stored)} item(s):")
+        _con.print(f"{_label('memory.remember', 'cyan', '🧠')} stored {len(stored)} item(s):")
         for item in stored:
             _con.print(f"  [dim]-[/] {escape(item.kind)}: {escape(item.descriptor)}")
 
@@ -119,12 +120,12 @@ async def run(
                 if trace:
                     _con.print()
                     _con.print(Rule(f"iter {iteration}", style="dim"))
-                    _con.print(f"{_label('memory.read', 'cyan')} {len(hits)} hit(s)")
+                    _con.print(f"{_label('memory.read', 'cyan', '🧠')} {len(hits)} hit(s)")
                     for g in prior_goals:
                         icon = "[green]✓[/]" if g.done else "[yellow]○[/]"
                         attach = g.all_attachment_ids()
                         suffix = f" [dim]attach={attach}[/]" if attach else ""
-                        lbl = _label("perception", "magenta")
+                        lbl = _label("perception", "magenta", "👁️")
                         _con.print(f"{lbl} {icon} {escape(g.text)}{suffix}")
 
                 if obs.all_done:
@@ -145,7 +146,7 @@ async def run(
                         if decision_out.is_answer and decision_out.answer:
                             if trace:
                                 ans = escape(decision_out.answer[:500])
-                                _con.print(f"{_label('decision', 'yellow')} ANSWER: {ans}")
+                                _con.print(f"{_label('decision', 'yellow', '🤔')} ANSWER: {ans}")
                             history.append(
                                 HistoryEvent(
                                     iter=iteration,
@@ -156,7 +157,7 @@ async def run(
                                 )
                             )
                     if trace:
-                        _con.print("[bold green]\\[done] all goals satisfied[/]")
+                        _con.print("[bold green]✅ all goals satisfied[/]")
                     break
 
                 goal = obs.next_unfinished()
@@ -170,7 +171,7 @@ async def run(
                         if trace:
                             size = len(attached[artifact_id].encode("utf-8"))
                             aid = escape(artifact_id)
-                            _con.print(f"[dim italic]\\[attach] {aid} ({size} bytes)[/]")
+                            _con.print(f"[dim italic]📎 {aid} ({size} bytes)[/]")
 
                 decision_out = decision.next_step(
                     DecisionInput(
@@ -187,7 +188,7 @@ async def run(
                     assert decision_out.answer is not None
                     if trace:
                         ans = escape(decision_out.answer[:500])
-                        _con.print(f"{_label('decision', 'yellow')} ANSWER: {ans}")
+                        _con.print(f"{_label('decision', 'yellow', '🤔')} ANSWER: {ans}")
                     history.append(
                         HistoryEvent(
                             iter=iteration,
@@ -204,7 +205,7 @@ async def run(
                     tc = decision_out.tool_call
                     name = f"[bold]{escape(tc.name)}[/]"
                     args = f"[dim]{escape(str(tc.arguments))}[/]"
-                    _con.print(f"{_label('decision', 'yellow')} TOOL_CALL: {name}({args})")
+                    _con.print(f"{_label('decision', 'yellow', '🤔')} TOOL_CALL: {name}({args})")
                 action_out = await action.execute(
                     session, ActionInput(tool_call=decision_out.tool_call)
                 )
@@ -220,7 +221,7 @@ async def run(
                 if trace:
                     status_tag = "[green]ok[/]" if action_out.ok else "[red]error[/]"
                     desc = escape(action_out.descriptor[:700])
-                    _con.print(f"{_label('action', 'blue')} {status_tag}: {desc}")
+                    _con.print(f"{_label('action', 'blue', '⚡')} {status_tag}: {desc}")
                 history.append(
                     HistoryEvent(
                         iter=iteration,
@@ -241,12 +242,12 @@ async def run(
                 )
             else:
                 if trace:
-                    _con.print(f"[bold red]\\[stop] max iterations reached: {max_iterations}[/]")
+                    _con.print(f"[bold red]🛑 max iterations reached: {max_iterations}[/]")
 
     answer = final_answer_from(history)
     if trace:
         _con.print()
-        _con.print(Panel(escape(answer), title="FINAL", border_style="green"))
+        _con.print(Panel(escape(answer), title="✨ FINAL", border_style="green"))
     return answer
 
 
