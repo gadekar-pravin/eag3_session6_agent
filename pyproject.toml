@@ -1,0 +1,33 @@
+[project]
+name = "eag3-session6-agent"
+version = "0.1.0"
+description = "Session 6 agent architecture assignment implementation without the LLM Gateway"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.7",
+    "mcp>=1.9.0",
+    "httpx>=0.27",
+    "python-dotenv>=1.0",
+    "ddgs>=9.0.0",
+    "crawl4ai>=0.6.0",
+    "tavily-python>=0.5.0",
+]
+
+[project.scripts]
+agent6 = "agent6:main"
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.13",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
