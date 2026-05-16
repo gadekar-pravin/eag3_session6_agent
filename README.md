@@ -168,384 +168,448 @@ The required proof-of-process files are in `prompt_validation/`:
 ## Actual terminal output
 
 ```
-[05/16/26 18:28:06] INFO     Processing request of type            server.py:727
-                             ListToolsRequest
+[05/16/26 20:02:18] INFO     Processing request of type            server.py:727
+                             ListToolsRequest                                   
 
 ──────────────────────────────────── iter 1 ────────────────────────────────────
-memory.read 0 hit(s)
-perception ○ Fetch the Wikipedia page for Claude Shannon.
-perception ○ Extract birth date, death date, and three key contributions to
+🧠 memory.read 0 hit(s) (0.00s)
+👁️ perception ○ Fetch the Wikipedia page for Claude Shannon. (21.10s)
+👁️ perception ○ Extract birth date, death date, and three key contributions to 
 information theory from the fetched page.
-decision TOOL_CALL: fetch_url({'url':
-'https://en.wikipedia.org/wiki/Claude_Shannon'})
-[05/16/26 18:28:24] INFO     Processing request of type            server.py:727
-                             CallToolRequest
-[INIT].... → Crawl4AI 0.8.6
-[FETCH]... ↓ https://en.wikipedia.org/wiki/Claude_Shannon
-| ✓ | ⏱: 1.59s
-[SCRAPE].. ◆ https://en.wikipedia.org/wiki/Claude_Shannon
-| ✓ | ⏱: 0.23s
-[COMPLETE] ● https://en.wikipedia.org/wiki/Claude_Shannon
-| ✓ | ⏱: 1.84s
-action ok: [artifact art:87105cf180f67047, 263489 bytes] preview: {   "status":
-200,   "content_type": "text/markdown",   "length_bytes": 257375,   "text":
-"[Jump to
-content](https://en.wikipedia.org/wiki/Claude_Shannon#bodyContent)\nMain
-menu\nMain menu\nmove to sidebar hide\nNavigation \n  * [Main
-page](https://en.wikipedia.org/wiki/Main_Page \"Visit the main page
-\\[alt-z\\]\")\n  * [Contents](https://en.wikipedia.org/wiki/Wikipedia:Contents
-\"Guides to browsing Wikipedia\")\n  * [Current
-events](https://en.wikipedia.org/wiki/Portal:Current_events \"Articles related
-to current events\")\n  * [Random
-article](https://en.wikipedia.org/wiki/Special:Random \"Visit a randomly
-selected article \\[alt-x\\]
+🤔 decision TOOL_CALL: fetch_url({'url': 
+'https://en.wikipedia.org/wiki/Claude_Shannon'}) (4.90s)
+[05/16/26 20:02:44] INFO     Processing request of type            server.py:727
+                             CallToolRequest                                    
+[INIT].... → Crawl4AI 0.8.6 
+[FETCH]... ↓ https://en.wikipedia.org/wiki/Claude_Shannon                       
+| ✓ | ⏱: 1.52s 
+[SCRAPE].. ◆ https://en.wikipedia.org/wiki/Claude_Shannon                       
+| ✓ | ⏱: 0.25s 
+[COMPLETE] ● https://en.wikipedia.org/wiki/Claude_Shannon                       
+| ✓ | ⏱: 1.79s 
+⚡ action ok: [artifact art:b0a90a029348c793, 262909 bytes] preview: {   
+"status": 200,   "content_type": "text/markdown",   "length_bytes": 256817,   
+"text": "[Jump to 
+content](https://en.wikipedia.org/wiki/Claude_Shannon#bodyContent)\nMain 
+menu\nMain menu\nmove to sidebar hide\nNavigation \n  * [Main 
+page](https://en.wikipedia.org/wiki/Main_Page \"Visit the main page 
+\\[alt-z\\]\")\n  * [Contents](https://en.wikipedia.org/wiki/Wikipedia:Contents 
+\"Guides to browsing Wikipedia\")\n  * [Current 
+events](https://en.wikipedia.org/wiki/Portal:Current_events \"Articles related 
+to current events\")\n  * [Random 
+article](https://en.wikipedia.org/wiki/Special:Random \"Visit a randomly 
+selected article \\[alt-x\\] (3.37s)
+⏱️  iter 1 total: 29.39s
 
 ──────────────────────────────────── iter 2 ────────────────────────────────────
-memory.read 1 hit(s)
-perception ✓ Fetch the Wikipedia page for Claude Shannon.
-perception ○ Extract birth date, death date, and three key contributions to
-information theory from the fetched page. attach=['art:87105cf180f67047']
-[attach] art:87105cf180f67047 (263489 bytes)
-decision ANSWER: Claude Shannon was born on April 30, 1916, and died on February
-24, 2001. His three key contributions to information theory include: 1) The
-development of information entropy as a measure of information content; 2) The
-formal introduction of the term 'bit'; and 3) The establishment of the
-fundamental limits on data transmission through his work on noisy channel
-coding.
+🧠 memory.read 1 hit(s) (0.00s)
+👁️ perception ✓ Fetch the Wikipedia page for Claude Shannon. (1.44s)
+👁️ perception ○ Extract birth date, death date, and three key contributions to 
+information theory from the fetched page. attach=['art:b0a90a029348c793']
+📎 art:b0a90a029348c793 (262909 bytes)
+🤔 decision ANSWER: Claude Shannon was born on April 30, 1916, and died on 
+February 24, 2001. His three key contributions to information theory include: 1)
+The development of information entropy as a measure of information content; 2) 
+The establishment of the fundamental limits on data compression and transmission
+rates (such as the noisy channel coding theorem); and 3) The formal introduction
+of the term 'bit' as the basic unit of information. (10.19s)
+⏱️  iter 2 total: 11.63s
 
 ──────────────────────────────────── iter 3 ────────────────────────────────────
-memory.read 1 hit(s)
-perception ✓ Fetch the Wikipedia page for Claude Shannon.
-perception ✓ Extract birth date, death date, and three key contributions to
-information theory from the fetched page. attach=['art:87105cf180f67047']
-[done] all goals satisfied
+🧠 memory.read 1 hit(s) (0.00s)
+👁️ perception ✓ Fetch the Wikipedia page for Claude Shannon. (2.29s)
+👁️ perception ✓ Extract birth date, death date, and three key contributions to 
+information theory from the fetched page. attach=['art:b0a90a029348c793']
+⏱️  iter 3 total: 2.29s
+✅ all goals satisfied
 
-╭─────────────────────────────────── FINAL ────────────────────────────────────╮
+╭────────────────────────────────── ✨ FINAL ──────────────────────────────────╮
 │ Claude Shannon was born on April 30, 1916, and died on February 24, 2001.    │
 │ His three key contributions to information theory include: 1) The            │
 │ development of information entropy as a measure of information content; 2)   │
-│ The formal introduction of the term 'bit'; and 3) The establishment of the   │
-│ fundamental limits on data transmission through his work on noisy channel    │
-│ coding.                                                                      │
+│ The establishment of the fundamental limits on data compression and          │
+│ transmission rates (such as the noisy channel coding theorem); and 3) The    │
+│ formal introduction of the term 'bit' as the basic unit of information.      │
 ╰──────────────────────────────────────────────────────────────────────────────╯
-[05/16/26 18:28:47] INFO     Processing request of type            server.py:727
-                             ListToolsRequest
+🔄 Execution Trace (2 iterations · 1 tool call(s) · 43.7s total)
+├── Iter 1 · Fetch the Wikipedia page for Claude Shannon.
+│   └── 🧠 Memory → 👁️ Perception → 🤔 Decision → ⚡ Action(fetch_url) ✓
+└── Iter 2 · Extract birth date, death date, and three key contributions …
+    └── 🧠 Memory → 👁️ Perception → 🤔 Decision → 💡 Answer ✓
+⏱️  total: 43.74s
+[05/16/26 20:03:02] INFO     Processing request of type            server.py:727
+                             ListToolsRequest                                   
 
 ──────────────────────────────────── iter 1 ────────────────────────────────────
-memory.read 0 hit(s)
-perception ○ Search for 3 family-friendly activities in Tokyo.
-perception ○ Search for the weather forecast in Tokyo for this Saturday.
-perception ○ Synthesize the activities and weather forecast to recommend the
+🧠 memory.read 0 hit(s) (0.00s)
+👁️ perception ○ Search for 3 family-friendly activities in Tokyo. (1.41s)
+👁️ perception ○ Search for the weather forecast in Tokyo for this Saturday.
+👁️ perception ○ Synthesize the activities and weather forecast to recommend the 
 most appropriate family-friendly activity.
-decision TOOL_CALL: web_search({'query': 'family-friendly activities in Tokyo',
-'max_results': 3})
-[05/16/26 18:28:59] INFO     Processing request of type            server.py:727
-                             CallToolRequest
-action ok: [artifact art:3cafbc53b0d4e258, 6288 bytes] preview: {   "title":
-"The best Tokyo Family-friendly activities 2026 - Free cancellation",   "url":
-"https://www.getyourguide.com/tokyo-l193/family-friendly-activities-tc1094/",
+🤔 decision TOOL_CALL: web_search({'query': 'family-friendly activities in 
+Tokyo', 'max_results': 3}) (1.15s)
+[05/16/26 20:03:05] INFO     Processing request of type            server.py:727
+                             CallToolRequest                                    
+⚡ action ok: [artifact art:42e849119dc7a5b6, 6628 bytes] preview: {   "title": 
+"The best Tokyo Family-friendly activities 2026 - Free cancellation",   "url": 
+"https://www.getyourguide.com/tokyo-l193/family-friendly-activities-tc1094/",   
 "snippet": "Image 2: image Top pick Tokyo: Mt Fuji & Oishi Park & Lake Kawaguchi
-& Oshino Hakkai 10 hours • Private option available • Pickup available
-4.8(1,658) From $82 $49Image 3: image #1 selling guided tour Tokyo: Shinjuku
-Sumo Show & Experience with Photo 1.5 hours 4.8(1,650) From $76 $61Image 4:
-image Booked 33 times yesterday Tokyo: Sumo Entertainment Show with Chicken Hot
-Pot & Geisha 2 hours 4.8(7,333) From $101Image 5: image Booked 41 times
-yesterday Mt Fuji
+& Oshino Hakkai 10 hours • Private option available • Pickup available 
+4.8(1,658) From $82 $49Image 3: image #1 selling guided tour Tokyo: Shinjuku 
+Sumo Show & Experience with Photo 1.5 hours 4.8(1,650) From $76 $61Image 4: 
+image Booked 33 times yesterday Tokyo: Sumo Entertainment Show with Chicken Hot 
+Pot & Geisha 2 hours 4.8(7,333) From $101Image 5: image Booked 41 times 
+yesterday Mt Fuji  (0.76s)
+⏱️  iter 1 total: 3.32s
 
 ──────────────────────────────────── iter 2 ────────────────────────────────────
-memory.read 1 hit(s)
-perception ✓ Search for 3 family-friendly activities in Tokyo.
-attach=['art:3cafbc53b0d4e258']
-perception ○ Search for the weather forecast in Tokyo for this Saturday.
-perception ○ Synthesize the activities and weather forecast to recommend the
-most appropriate family-friendly activity. attach=['art:3cafbc53b0d4e258']
-decision TOOL_CALL: web_search({'query': 'weather forecast Tokyo Saturday May 16
-2026', 'max_results': 1})
-[05/16/26 18:29:03] INFO     Processing request of type            server.py:727
-                             CallToolRequest
-action ok: {
-  "title": "Tokyo Weather in May 2026: Temperature, Rainfall, Crowds, and ...",
-  "url":
-"https://www.umetravel.com/japan-weather/tokyo-weather-in-may.html?srsltid=AfmBO
-oqFokGN5X_2eXUzXfxugxWol4CDLdGZ9SPBbUxtoemJ_aowRmMt",
-  "snippet": "In 2026, rainfall remains moderate, with short, occasional showers
-rather than prolonged storms. Although weather patterns vary from year to year,
-May is generally drier than June in 2026, which is considered the rainy season.
-Toward the end of the month, humidity builds slightly, especially on overcast
-days, offering an early hint of Japan's summer climate without becoming
-uncomfortable yet."
-}
+🧠 memory.read 1 hit(s) (0.00s)
+👁️ perception ✓ Search for 3 family-friendly activities in Tokyo. (1.56s)
+👁️ perception ○ Search for the weather forecast in Tokyo for this Saturday.
+👁️ perception ○ Synthesize the activities and weather forecast to recommend the 
+most appropriate family-friendly activity. attach=['art:42e849119dc7a5b6']
+🤔 decision TOOL_CALL: web_search({'query': 'weather forecast Tokyo Saturday May
+16 2026', 'max_results': 1}) (9.09s)
+[05/16/26 20:03:16] INFO     Processing request of type            server.py:727
+                             CallToolRequest                                    
+⚡ action ok: {
+  "title": "Tokyo weather in May 2026 - Weather25.com",
+  "url": "https://www.weather25.com/asia/japan/tokyo?page=month&month=May",
+  "snippet": "| 24 Light rain 21° /20° | 25 Light drizzle 22° /19° | 26 Light 
+rain shower 22° /20° | 27 Sunny 23° /17° | 28 Patchy light drizzle 25° /19° | 29
+Partly cloudy 25° /19° | 30 Partly cloudy 24° /19° |\n| 31 Patchy light drizzle 
+21° /18° | [...] 4.5 mm\n\n20° / 16°Friday\n\nMay 22\n\nOvercast\n\n8.5 
+mm\n\n20° / 14°Saturday\n\nMay 23\n\nPatchy rain possible\n\n0 mm\n\n23° / 
+19°Sunday\n\nMay 24\n\nLight rain\n\n4 mm\n\n21° / 20°Monday\n\nMay 25\n\nLight 
+drizzle\n\n1.8 mm\n\n22° / 19°Tuesday\n\nMay 26\n\nLight rain shower\n\n2.3 
+mm\n\n22° / 20° Next  \n (4.04s)
+⏱️  iter 2 total: 14.69s
 
 ──────────────────────────────────── iter 3 ────────────────────────────────────
-memory.read 2 hit(s)
-perception ✓ Search for 3 family-friendly activities in Tokyo.
-attach=['art:3cafbc53b0d4e258']
-perception ✓ Search for the weather forecast in Tokyo for this Saturday.
-perception ○ Synthesize the activities and weather forecast to recommend the
-most appropriate family-friendly activity. attach=['art:3cafbc53b0d4e258']
-[attach] art:3cafbc53b0d4e258 (6288 bytes)
-decision ANSWER: For this Saturday in Tokyo, the weather is expected to be
-generally dry with only short, occasional showers, making it a great day for
-outdoor activities. Three family-friendly options include: 1) Visiting the Tokyo
-Skytree for panoramic views, 2) Exploring the historic Nezu Shrine, and 3)
-Spending a day at Tokyo DisneySea. Given the forecast for mild, dry weather, the
-most appropriate activity is a visit to Tokyo DisneySea, as it offers a mix of
-outdoor attractions and entertainment that can be
+🧠 memory.read 2 hit(s) (0.00s)
+👁️ perception ✓ Search for 3 family-friendly activities in Tokyo. (1.51s)
+👁️ perception ✓ Search for the weather forecast in Tokyo for this Saturday.
+👁️ perception ○ Synthesize the activities and weather forecast to recommend the 
+most appropriate family-friendly activity. attach=['art:42e849119dc7a5b6']
+📎 art:42e849119dc7a5b6 (6628 bytes)
+🤔 decision ANSWER: For this Saturday, May 23, 2026, in Tokyo, the weather 
+forecast predicts 'patchy rain possible' with temperatures between 19°C and 
+23°C. Given the potential for rain, an indoor activity is the most appropriate 
+choice. I recommend visiting the Miraikan (National Museum of Emerging Science 
+and Innovation) in Odaiba, which is an excellent, interactive, and 
+family-friendly indoor destination. Other great family-friendly options in Tokyo
+include the Tokyo Toy Museum and teamLab Planets, both of which (1.52s)
+⏱️  iter 3 total: 3.04s
 
 ──────────────────────────────────── iter 4 ────────────────────────────────────
-memory.read 2 hit(s)
-perception ✓ Search for 3 family-friendly activities in Tokyo.
-attach=['art:3cafbc53b0d4e258']
-perception ✓ Search for the weather forecast in Tokyo for this Saturday.
-perception ✓ Synthesize the activities and weather forecast to recommend the
-most appropriate family-friendly activity. attach=['art:3cafbc53b0d4e258']
-[done] all goals satisfied
+🧠 memory.read 2 hit(s) (0.00s)
+👁️ perception ✓ Search for 3 family-friendly activities in Tokyo. (1.56s)
+👁️ perception ✓ Search for the weather forecast in Tokyo for this Saturday.
+👁️ perception ✓ Synthesize the activities and weather forecast to recommend the 
+most appropriate family-friendly activity. attach=['art:42e849119dc7a5b6']
+⏱️  iter 4 total: 1.56s
+✅ all goals satisfied
 
-╭─────────────────────────────────── FINAL ────────────────────────────────────╮
-│ For this Saturday in Tokyo, the weather is expected to be generally dry with │
-│ only short, occasional showers, making it a great day for outdoor            │
-│ activities. Three family-friendly options include: 1) Visiting the Tokyo     │
-│ Skytree for panoramic views, 2) Exploring the historic Nezu Shrine, and 3)   │
-│ Spending a day at Tokyo DisneySea. Given the forecast for mild, dry weather, │
-│ the most appropriate activity is a visit to Tokyo DisneySea, as it offers a  │
-│ mix of outdoor attractions and entertainment that can be fully enjoyed in    │
-│ the pleasant May conditions.                                                 │
+╭────────────────────────────────── ✨ FINAL ──────────────────────────────────╮
+│ For this Saturday, May 23, 2026, in Tokyo, the weather forecast predicts     │
+│ 'patchy rain possible' with temperatures between 19°C and 23°C. Given the    │
+│ potential for rain, an indoor activity is the most appropriate choice. I     │
+│ recommend visiting the Miraikan (National Museum of Emerging Science and     │
+│ Innovation) in Odaiba, which is an excellent, interactive, and               │
+│ family-friendly indoor destination. Other great family-friendly options in   │
+│ Tokyo include the Tokyo Toy Museum and teamLab Planets, both of which also   │
+│ offer engaging indoor experiences suitable for a day with potential rain.    │
 ╰──────────────────────────────────────────────────────────────────────────────╯
-memory.remember stored 1 item(s):
+🔄 Execution Trace (3 iterations · 2 tool call(s) · 22.9s total)
+├── Iter 1 · Search for 3 family-friendly activities in Tokyo.
+│   └── 🧠 Memory → 👁️ Perception → 🤔 Decision → ⚡ Action(web_search) ✓
+├── Iter 2 · Search for the weather forecast in Tokyo for this Saturday.
+│   └── 🧠 Memory → 👁️ Perception → 🤔 Decision → ⚡ Action(web_search) ✓
+└── Iter 3 · Synthesize the activities and weather forecast to recommend …
+    └── 🧠 Memory → 👁️ Perception → 🤔 Decision → 💡 Answer ✓
+⏱️  total: 22.95s
+🧠 memory.remember stored 1 item(s):
   - fact: Mom's birthday is on 15 May 2026.
-[05/16/26 18:29:46] INFO     Processing request of type            server.py:727
-                             ListToolsRequest
+[05/16/26 20:03:27] INFO     Processing request of type            server.py:727
+                             ListToolsRequest                                   
 
 ──────────────────────────────────── iter 1 ────────────────────────────────────
-memory.read 1 hit(s)
-perception ✓ Remember that mom's birthday is 15 May 2026.
-perception ○ Create a calendar reminder for 1 May 2026 for mom's birthday.
-perception ○ Create a calendar reminder for 15 May 2026 for mom's birthday.
-decision TOOL_CALL: create_file({'path': 'mom_birthday_reminder_20260501.txt',
-'content': "Reminder: Mom's birthday is on 15 May 2026. This is the two-week
-advance reminder for 1 May 2026."})
-[05/16/26 18:29:51] INFO     Processing request of type            server.py:727
-                             CallToolRequest
-action ok: {
+🧠 memory.read 1 hit(s) (0.00s)
+👁️ perception ✓ Record mom's birthday as 15 May 2026 in durable memory. (1.44s)
+👁️ perception ○ Create a calendar reminder for 1 May 2026 for mom's birthday.
+👁️ perception ○ Create a calendar reminder for 15 May 2026 for mom's birthday.
+🤔 decision TOOL_CALL: create_file({'path': 
+'mom_birthday_reminder_20260501.txt', 'content': "Reminder: Mom's birthday is on
+15 May 2026. This is the two-week advance reminder for 1 May 2026."}) (2.23s)
+[05/16/26 20:03:30] INFO     Processing request of type            server.py:727
+                             CallToolRequest                                    
+⚡ action ok: {
   "ok": true,
   "path": "mom_birthday_reminder_20260501.txt",
   "size_bytes": 97
-}
+} (0.01s)
+⏱️  iter 1 total: 3.68s
 
 ──────────────────────────────────── iter 2 ────────────────────────────────────
-memory.read 2 hit(s)
-perception ✓ Remember that mom's birthday is 15 May 2026.
-perception ✓ Create a calendar reminder for 1 May 2026 for mom's birthday.
-perception ○ Create a calendar reminder for 15 May 2026 for mom's birthday.
-decision TOOL_CALL: create_file({'path': 'mom_birthday_reminder_20260515.txt',
-'content': "Reminder: Mom's birthday is today, 15 May 2026."})
-[05/16/26 18:29:56] INFO     Processing request of type            server.py:727
-                             CallToolRequest
-action ok: {
+🧠 memory.read 2 hit(s) (0.00s)
+👁️ perception ✓ Record mom's birthday as 15 May 2026 in durable memory. (1.64s)
+👁️ perception ✓ Create a calendar reminder for 1 May 2026 for mom's birthday.
+👁️ perception ○ Create a calendar reminder for 15 May 2026 for mom's birthday.
+🤔 decision TOOL_CALL: create_file({'path': 
+'mom_birthday_reminder_20260515.txt', 'content': "Reminder: Mom's birthday is 
+today, 15 May 2026."}) (14.91s)
+[05/16/26 20:03:47] INFO     Processing request of type            server.py:727
+                             CallToolRequest                                    
+⚡ action ok: {
   "ok": true,
   "path": "mom_birthday_reminder_20260515.txt",
   "size_bytes": 47
-}
+} (0.00s)
+⏱️  iter 2 total: 16.56s
 
 ──────────────────────────────────── iter 3 ────────────────────────────────────
-memory.read 3 hit(s)
-perception ✓ Remember that mom's birthday is 15 May 2026.
-perception ✓ Create a calendar reminder for 1 May 2026 for mom's birthday.
-perception ✓ Create a calendar reminder for 15 May 2026 for mom's birthday.
-decision ANSWER: I have successfully created the calendar reminders for your
-mom's birthday on 15 May 2026. A two-week advance reminder was created in
-'mom_birthday_reminder_20260501.txt' and the reminder for the day of the
-birthday was created in 'mom_birthday_reminder_20260515.txt'.
-[done] all goals satisfied
+🧠 memory.read 3 hit(s) (0.00s)
+👁️ perception ✓ Record mom's birthday as 15 May 2026 in durable memory. (13.48s)
+👁️ perception ✓ Create a calendar reminder for 1 May 2026 for mom's birthday.
+👁️ perception ✓ Create a calendar reminder for 15 May 2026 for mom's birthday.
+🤔 decision ANSWER: I have successfully created the calendar reminders for your 
+mom's birthday on 15 May 2026. A reminder for two weeks before (1 May 2026) has 
+been saved as 'mom_birthday_reminder_20260501.txt', and a reminder for the day 
+of (15 May 2026) has been saved as 'mom_birthday_reminder_20260515.txt'. (1.53s)
+⏱️  iter 3 total: 15.01s
+✅ all goals satisfied
 
-╭─────────────────────────────────── FINAL ────────────────────────────────────╮
+╭────────────────────────────────── ✨ FINAL ──────────────────────────────────╮
 │ I have successfully created the calendar reminders for your mom's birthday   │
-│ on 15 May 2026. A two-week advance reminder was created in                   │
-│ 'mom_birthday_reminder_20260501.txt' and the reminder for the day of the     │
-│ birthday was created in 'mom_birthday_reminder_20260515.txt'.                │
+│ on 15 May 2026. A reminder for two weeks before (1 May 2026) has been saved  │
+│ as 'mom_birthday_reminder_20260501.txt', and a reminder for the day of (15   │
+│ May 2026) has been saved as 'mom_birthday_reminder_20260515.txt'.            │
 ╰──────────────────────────────────────────────────────────────────────────────╯
-[05/16/26 18:30:26] INFO     Processing request of type            server.py:727
-                             ListToolsRequest
+🔄 Execution Trace (3 iterations · 2 tool call(s) · 35.6s total)
+├── Iter 1 · Create a calendar reminder for 1 May 2026 for mom's birthday…
+│   └── 🧠 Memory → 👁️ Perception → 🤔 Decision → ⚡ Action(create_file) ✓
+├── Iter 2 · Create a calendar reminder for 15 May 2026 for mom's birthda…
+│   └── 🧠 Memory → 👁️ Perception → 🤔 Decision → ⚡ Action(create_file) ✓
+└── Iter 3 · Create a calendar reminder for 15 May 2026 for mom's birthda…
+    └── 🧠 Memory → 👁️ Perception → 🤔 Decision → 💡 Answer ✓
+⏱️  total: 35.63s
+[05/16/26 20:04:03] INFO     Processing request of type            server.py:727
+                             ListToolsRequest                                   
 
 ──────────────────────────────────── iter 1 ────────────────────────────────────
-memory.read 3 hit(s)
-perception ✓ Identify mom's birthday from durable memory.
-decision ANSWER: Mom's birthday is on 15 May 2026.
-[done] all goals satisfied
+🧠 memory.read 3 hit(s) (0.00s)
+👁️ perception ✓ Identify mom's birthday from durable memory. (15.89s)
+🤔 decision ANSWER: Mom's birthday is on 15 May 2026. Reminders for this date 
+have been successfully created. (7.67s)
+⏱️  iter 1 total: 23.56s
+✅ all goals satisfied
 
-╭─────────────────────────────────── FINAL ────────────────────────────────────╮
-│ Mom's birthday is on 15 May 2026.                                            │
+╭────────────────────────────────── ✨ FINAL ──────────────────────────────────╮
+│ Mom's birthday is on 15 May 2026. Reminders for this date have been          │
+│ successfully created.                                                        │
 ╰──────────────────────────────────────────────────────────────────────────────╯
-[05/16/26 18:30:33] INFO     Processing request of type            server.py:727
-                             ListToolsRequest
+🔄 Execution Trace (1 iterations · 0 tool call(s) · 23.9s total)
+└── Iter 1 · Identify mom's birthday from durable memory.
+    └── 🧠 Memory → 👁️ Perception → 🤔 Decision → 💡 Answer ✓
+⏱️  total: 23.91s
+[05/16/26 20:04:28] INFO     Processing request of type            server.py:727
+                             ListToolsRequest                                   
 
 ──────────────────────────────────── iter 1 ────────────────────────────────────
-memory.read 0 hit(s)
-perception ○ Search for 'Python asyncio best practices'.
-perception ○ Fetch the first search result.
-perception ○ Fetch the second search result.
-perception ○ Fetch the third search result.
-perception ○ Synthesize a numbered list of advice agreed upon by the top 3
+🧠 memory.read 0 hit(s) (0.00s)
+👁️ perception ○ Search for 'Python asyncio best practices'. (1.66s)
+👁️ perception ○ Fetch the first search result URL.
+👁️ perception ○ Fetch the second search result URL.
+👁️ perception ○ Fetch the third search result URL.
+👁️ perception ○ Synthesize a numbered list of advice agreed upon by the top 3 
 results.
-decision TOOL_CALL: web_search({'query': 'Python asyncio best practices',
-'max_results': 3})
-[05/16/26 18:30:50] INFO     Processing request of type            server.py:727
-                             CallToolRequest
-action ok: [artifact art:15ada67761f7599b, 6145 bytes] preview: {   "title":
-"Asyncio Best Practices and Common Pitfalls",   "url":
-"https://www.shanechang.com/p/python-asyncio-best-practices-pitfalls/",
-"snippet": "Featured image of post Asyncio Best Practices and Common
-Pitfalls\n\nPython Concurrency\n\n## Asyncio Best Practices and Common
-Pitfalls\n\n### Learn the essential best practices and avoid common mistakes
-when working with Python's asyncio library\n\n## Writing Better Asyncio Code:
-Dos and Don'ts\n\nPython's asyncio library is powerful but comes with its own
-set of conventions and potential pitfalls. Let's explore the best practices to
-follow and common mistakes to avoid.\n\n### Best Prac
+🤔 decision TOOL_CALL: web_search({'query': 'Python asyncio best practices', 
+'max_results': 3}) (2.62s)
+[05/16/26 20:04:32] INFO     Processing request of type            server.py:727
+                             CallToolRequest                                    
+⚡ action ok: [artifact art:be6414db0a50f79a, 6839 bytes] preview: {   "title": 
+"Asyncio best practices - Async-SIG - Discussions on Python.org",   "url": 
+"https://discuss.python.org/t/asyncio-best-practices/12576",   "snippet": "# 
+Asyncio best practices\n\nSo I thought it’d be great to catalog some of the best
+practices and patterns to follow while writing asynchronous code in Python, in 
+order to help guide all developers who are planning to use this awesome feature 
+on how to use it right.  \nWhat I mention here is not ultimate and might need to
+be corrected by Devs who have used this feature longer that I have, and also 
+updated with more design patterns.\n\n### 1)async/await usage\n\nAsync functions
+are (3.10s)
+⏱️  iter 1 total: 7.39s
 
 ──────────────────────────────────── iter 2 ────────────────────────────────────
-memory.read 1 hit(s)
-perception ✓ Search for 'Python asyncio best practices'.
-perception ○ Fetch the first search result. attach=['art:15ada67761f7599b']
-perception ○ Fetch the second search result. attach=['art:15ada67761f7599b']
-perception ○ Fetch the third search result. attach=['art:15ada67761f7599b']
-perception ○ Synthesize a numbered list of advice agreed upon by the top 3
+🧠 memory.read 1 hit(s) (0.00s)
+👁️ perception ✓ Search for 'Python asyncio best practices'. (1.74s)
+👁️ perception ○ Fetch the first search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ○ Fetch the second search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ○ Fetch the third search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ○ Synthesize a numbered list of advice agreed upon by the top 3 
 results.
-[attach] art:15ada67761f7599b (6145 bytes)
-decision TOOL_CALL: fetch_url({'url':
-'https://www.shanechang.com/p/python-asyncio-best-practices-pitfalls/'})
-[05/16/26 18:30:59] INFO     Processing request of type            server.py:727
-                             CallToolRequest
-[INIT].... → Crawl4AI 0.8.6
-[FETCH]... ↓
-https://www.shanechang.com/p/python-asyncio-best-practices-pitfalls/
-| ✓ | ⏱: 3.49s
-[SCRAPE].. ◆
-https://www.shanechang.com/p/python-asyncio-best-practices-pitfalls/
-| ✓ | ⏱: 0.01s
-[COMPLETE] ●
-https://www.shanechang.com/p/python-asyncio-best-practices-pitfalls/
-| ✓ | ⏱: 3.52s
-action ok: [artifact art:4b12344d2c8b0e5c, 8594 bytes] preview: {   "status":
-301,   "content_type": "text/markdown",   "length_bytes": 8336,   "text":
-"[![Avatar](https://shanechang.com/favicon.svg)](https://shanechang.com/)\n#
-[Shane's Personal Blog](https://shanechang.com/)\n## Gain wisdom at dawn; die
-with no regret at dusk.\n[](https://github.com/zhangxingeng
-\"GitHub\")[](https://www.linkedin.com/in/zhangxingeng
-\"LinkedIn\")[](https://x.com \"x\")[](https://shanechang.com/files/resume.pdf
-\"Download Resume\")\n  * [Home](https://shanechang.com/)\n  * [About
-Me](https://shanechang.com/about-me/)\n  *
-[Portfolio](https://shanechang.com/portfolio/)\n  * [Favorite
-Quotes](https://shanechang.com/favo
-
-──────────────────────────────────── iter 3 ────────────────────────────────────
-memory.read 2 hit(s)
-perception ✓ Search for 'Python asyncio best practices'.
-perception ✓ Fetch the first search result. attach=['art:15ada67761f7599b']
-perception ○ Fetch the second search result. attach=['art:15ada67761f7599b']
-perception ○ Fetch the third search result. attach=['art:15ada67761f7599b']
-perception ○ Synthesize a numbered list of advice agreed upon by the top 3
-results. attach=['art:4b12344d2c8b0e5c']
-[attach] art:15ada67761f7599b (6145 bytes)
-decision TOOL_CALL: fetch_url({'url':
-'https://discuss.python.org/t/asyncio-best-practices/12576'})
-[05/16/26 18:31:21] INFO     Processing request of type            server.py:727
-                             CallToolRequest
-[INIT].... → Crawl4AI 0.8.6
-[FETCH]... ↓ https://discuss.python.org/t/asyncio-best-practices/12576
-| ✓ | ⏱: 2.66s
-[SCRAPE].. ◆ https://discuss.python.org/t/asyncio-best-practices/12576
-| ✓ | ⏱: 0.02s
-[COMPLETE] ● https://discuss.python.org/t/asyncio-best-practices/12576
-| ✓ | ⏱: 2.69s
-action ok: [artifact art:49fa6f44495e8842, 6543 bytes] preview: {   "status":
-200,   "content_type": "text/markdown",   "length_bytes": 6356,   "text": "[
-Skip to main content
-](https://discuss.python.org/t/asyncio-best-practices/12576#main-container)\n[
-![Discussions on
+📎 art:be6414db0a50f79a (6839 bytes)
+🤔 decision TOOL_CALL: fetch_url({'url': 
+'https://discuss.python.org/t/asyncio-best-practices/12576'}) (3.29s)
+[05/16/26 20:04:41] INFO     Processing request of type            server.py:727
+                             CallToolRequest                                    
+[INIT].... → Crawl4AI 0.8.6 
+[FETCH]... ↓ https://discuss.python.org/t/asyncio-best-practices/12576          
+| ✓ | ⏱: 3.50s 
+[SCRAPE].. ◆ https://discuss.python.org/t/asyncio-best-practices/12576          
+| ✓ | ⏱: 0.02s 
+[COMPLETE] ● https://discuss.python.org/t/asyncio-best-practices/12576          
+| ✓ | ⏱: 3.53s 
+⚡ action ok: [artifact art:85a1d3f7c55efab2, 6568 bytes] preview: {   "status":
+200,   "content_type": "text/markdown",   "length_bytes": 6381,   "text": "[ 
+Skip to main content 
+](https://discuss.python.org/t/asyncio-best-practices/12576#main-container)\n[ 
+![Discussions on 
 Python.org](https://us1.discourse-cdn.com/flex002/uploads/python1/original/1X/c7
 591c98caf3b31d4d9c6f322f41ed9d80a50800.png) ](https://discuss.python.org/)\nSign
-Up Log In\n  *   * ​ \n  * ​ \n\n\n​ \nPlease read our [Community
-Guidelines](https://discuss.python.org/guidelines/) that are tailored to this
-space in addition to the Python Software Foundation Code of Conduct that we're
-bound by.\nReach out to [@moderators](https://discuss.p
+Up Log In\n  *   * ​ \n  * ​ \n\n\n​ \nPlease read our [Community 
+Guidelines](https://discuss.python.org/guidelines/) that are tailored to this 
+space in addition to the Python Software Foundation Code of Conduct that we’re 
+bound by.\nReach out to [@moderators](https://discuss.p (5.27s)
+⏱️  iter 2 total: 10.31s
+
+──────────────────────────────────── iter 3 ────────────────────────────────────
+🧠 memory.read 2 hit(s) (0.00s)
+👁️ perception ✓ Search for 'Python asyncio best practices'. (1.94s)
+👁️ perception ✓ Fetch the first search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ○ Fetch the second search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ○ Fetch the third search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ○ Synthesize a numbered list of advice agreed upon by the top 3 
+results. attach=['art:85a1d3f7c55efab2']
+📎 art:be6414db0a50f79a (6839 bytes)
+🤔 decision TOOL_CALL: fetch_url({'url': 
+'https://realpython.com/async-io-python/'}) (1.19s)
+[05/16/26 20:04:49] INFO     Processing request of type            server.py:727
+                             CallToolRequest                                    
+[INIT].... → Crawl4AI 0.8.6 
+[FETCH]... ↓ https://realpython.com/async-io-python/                            
+| ✓ | ⏱: 3.68s 
+[SCRAPE].. ◆ https://realpython.com/async-io-python/                            
+| ✓ | ⏱: 0.10s 
+[COMPLETE] ● https://realpython.com/async-io-python/                            
+| ✓ | ⏱: 3.80s 
+⚡ action ok: [artifact art:2c01795e41e798ec, 78730 bytes] preview: {   
+"status": 200,   "content_type": "text/markdown",   "length_bytes": 77400,   
+"text": "[ ![Real 
+Python](https://realpython.com/static/real-python-logo.893c30edea53.svg) 
+](https://realpython.com/)\n  * [Start 
+Here](https://realpython.com/start-here/)\n  * [ 
+](https://realpython.com/async-io-python/)\n###### Start Learning\n[Your 
+Learning Plan →Your personalized Python learning 
+plan](https://realpython.com/account/onboarding/plan/) [Python Tutorials 
+→In-depth articles and video 
+courses](https://realpython.com/search?kind=article&kind=course&order=newest) 
+[Learning Paths →Guided study plans for accelerated 
+learning](https://realpython.com (4.39s)
+⏱️  iter 3 total: 7.53s
 
 ──────────────────────────────────── iter 4 ────────────────────────────────────
-memory.read 3 hit(s)
-perception ✓ Search for 'Python asyncio best practices'.
-perception ✓ Fetch the first search result. attach=['art:15ada67761f7599b']
-perception ✓ Fetch the second search result. attach=['art:15ada67761f7599b']
-perception ○ Fetch the third search result. attach=['art:15ada67761f7599b']
-perception ○ Synthesize a numbered list of advice agreed upon by the top 3
-results. attach=['art:4b12344d2c8b0e5c', 'art:49fa6f44495e8842']
-[attach] art:15ada67761f7599b (6145 bytes)
-decision TOOL_CALL: fetch_url({'url':
-'https://oneuptime.com/blog/post/2026-01-24-asyncio-concurrent-programming-pytho
-n/view'})
-[05/16/26 18:31:28] INFO     Processing request of type            server.py:727
-                             CallToolRequest
-[INIT].... → Crawl4AI 0.8.6
-[FETCH]... ↓
-https://oneuptime.com/blog/post/2026-01-24-asyncio-concurrent-programming-python
-/view                | ✓ | ⏱: 1.69s
-[SCRAPE].. ◆
-https://oneuptime.com/blog/post/2026-01-24-asyncio-concurrent-programming-python
-/view                | ✓ | ⏱: 0.04s
-[COMPLETE] ●
-https://oneuptime.com/blog/post/2026-01-24-asyncio-concurrent-programming-python
-/view                | ✓ | ⏱: 1.75s
-action ok: [artifact art:0ed934f2a888a132, 33404 bytes] preview: {   "status":
-200,   "content_type": "text/markdown",   "length_bytes": 32368,   "text":
-"[Skip to main
-content](https://oneuptime.com/blog/post/2026-01-24-asyncio-concurrent-programmi
-ng-python/view#main-content)\n[ OneUptime ![OneUptime
-logo](https://oneuptime.com/img/3-transparent.svg)
-](https://oneuptime.com/)\nOpen menu\nProducts\n### Essentials\n[ Monitoring
-Uptime & synthetic checks ](https://oneuptime.com/product/monitoring) [ Status
-Page Communicate incidents to users ](https://oneuptime.com/product/status-page)
-[ Incidents Detect, manage & resolve
-](https://oneuptime.com/product/incident-management) [ On-Call & Alerts Smart
-routi
+🧠 memory.read 3 hit(s) (0.00s)
+👁️ perception ✓ Search for 'Python asyncio best practices'. (7.00s)
+👁️ perception ✓ Fetch the first search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ✓ Fetch the second search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ○ Fetch the third search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ○ Synthesize a numbered list of advice agreed upon by the top 3 
+results. attach=['art:85a1d3f7c55efab2', 'art:2c01795e41e798ec']
+📎 art:be6414db0a50f79a (6839 bytes)
+🤔 decision TOOL_CALL: fetch_url({'url': 
+'https://www.shanechang.com/p/python-asyncio-best-practices-pitfalls/'}) (1.43s)
+[05/16/26 20:05:02] INFO     Processing request of type            server.py:727
+                             CallToolRequest                                    
+[INIT].... → Crawl4AI 0.8.6 
+[FETCH]... ↓ 
+https://www.shanechang.com/p/python-asyncio-best-practices-pitfalls/            
+| ✓ | ⏱: 4.21s 
+[SCRAPE].. ◆ 
+https://www.shanechang.com/p/python-asyncio-best-practices-pitfalls/            
+| ✓ | ⏱: 0.01s 
+[COMPLETE] ● 
+https://www.shanechang.com/p/python-asyncio-best-practices-pitfalls/            
+| ✓ | ⏱: 4.23s 
+⚡ action ok: [artifact art:4b12344d2c8b0e5c, 8594 bytes] preview: {   "status":
+301,   "content_type": "text/markdown",   "length_bytes": 8336,   "text": 
+"[![Avatar](https://shanechang.com/favicon.svg)](https://shanechang.com/)\n# 
+[Shane's Personal Blog](https://shanechang.com/)\n## Gain wisdom at dawn; die 
+with no regret at dusk.\n[](https://github.com/zhangxingeng 
+\"GitHub\")[](https://www.linkedin.com/in/zhangxingeng 
+\"LinkedIn\")[](https://x.com \"x\")[](https://shanechang.com/files/resume.pdf 
+\"Download Resume\")\n  * [Home](https://shanechang.com/)\n  * [About 
+Me](https://shanechang.com/about-me/)\n  * 
+[Portfolio](https://shanechang.com/portfolio/)\n  * [Favorite 
+Quotes](https://shanechang.com/favo (4.73s)
+⏱️  iter 4 total: 13.17s
 
 ──────────────────────────────────── iter 5 ────────────────────────────────────
-memory.read 4 hit(s)
-perception ✓ Search for 'Python asyncio best practices'.
-perception ✓ Fetch the first search result. attach=['art:15ada67761f7599b']
-perception ✓ Fetch the second search result. attach=['art:15ada67761f7599b']
-perception ✓ Fetch the third search result. attach=['art:15ada67761f7599b']
-perception ○ Synthesize a numbered list of advice agreed upon by the top 3
-results. attach=['art:4b12344d2c8b0e5c', 'art:49fa6f44495e8842',
-'art:0ed934f2a888a132']
-[attach] art:4b12344d2c8b0e5c (8594 bytes)
-[attach] art:49fa6f44495e8842 (6543 bytes)
-[attach] art:0ed934f2a888a132 (33404 bytes)
-decision ANSWER: Based on the top three resources, the following best practices
-for Python asyncio are consistently recommended: 1. Use `asyncio.run()` as the
-main entry point to properly manage the event loop lifecycle. 2. Never block the
-event loop with synchronous, long-running operations (like `time.sleep()`); use
-their asynchronous counterparts (like `await asyncio.sleep()`) instead. 3.
-Always await coroutines to ensure they are executed correctly. 4. Handle
-`asyncio.CancelledError` gracefully to perform ne
+🧠 memory.read 4 hit(s) (0.00s)
+👁️ perception ✓ Search for 'Python asyncio best practices'. (2.06s)
+👁️ perception ✓ Fetch the first search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ✓ Fetch the second search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ✓ Fetch the third search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ○ Synthesize a numbered list of advice agreed upon by the top 3 
+results. attach=['art:85a1d3f7c55efab2', 'art:2c01795e41e798ec', 
+'art:4b12344d2c8b0e5c']
+📎 art:85a1d3f7c55efab2 (6568 bytes)
+📎 art:2c01795e41e798ec (78730 bytes)
+📎 art:4b12344d2c8b0e5c (8594 bytes)
+🤔 decision ANSWER: Based on the top three resources, the following best 
+practices for Python asyncio are consistently recommended: 1. Use 
+`asyncio.run()` as the main entry point to properly manage the event loop 
+lifecycle and cleanup. 2. Always await coroutines to ensure they are executed 
+correctly. 3. Prefer using async context managers (`async with`) for robust 
+resource management. 4. Avoid blocking the event loop with long-running 
+synchronous code or blocking calls (like `time.sleep()`). (2.10s)
+⏱️  iter 5 total: 4.17s
 
 ──────────────────────────────────── iter 6 ────────────────────────────────────
-memory.read 4 hit(s)
-perception ✓ Search for 'Python asyncio best practices'.
-perception ✓ Fetch the first search result. attach=['art:15ada67761f7599b']
-perception ✓ Fetch the second search result. attach=['art:15ada67761f7599b']
-perception ✓ Fetch the third search result. attach=['art:15ada67761f7599b']
-perception ✓ Synthesize a numbered list of advice agreed upon by the top 3
-results. attach=['art:4b12344d2c8b0e5c', 'art:49fa6f44495e8842',
-'art:0ed934f2a888a132']
-[done] all goals satisfied
+🧠 memory.read 4 hit(s) (0.00s)
+👁️ perception ✓ Search for 'Python asyncio best practices'. (2.15s)
+👁️ perception ✓ Fetch the first search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ✓ Fetch the second search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ✓ Fetch the third search result URL. 
+attach=['art:be6414db0a50f79a']
+👁️ perception ✓ Synthesize a numbered list of advice agreed upon by the top 3 
+results. attach=['art:85a1d3f7c55efab2', 'art:2c01795e41e798ec', 
+'art:4b12344d2c8b0e5c']
+⏱️  iter 6 total: 2.15s
+✅ all goals satisfied
 
-╭─────────────────────────────────── FINAL ────────────────────────────────────╮
+╭────────────────────────────────── ✨ FINAL ──────────────────────────────────╮
 │ Based on the top three resources, the following best practices for Python    │
 │ asyncio are consistently recommended: 1. Use `asyncio.run()` as the main     │
-│ entry point to properly manage the event loop lifecycle. 2. Never block the  │
-│ event loop with synchronous, long-running operations (like `time.sleep()`);  │
-│ use their asynchronous counterparts (like `await asyncio.sleep()`) instead.  │
-│ 3. Always await coroutines to ensure they are executed correctly. 4. Handle  │
-│ `asyncio.CancelledError` gracefully to perform necessary cleanup when tasks  │
-│ are cancelled. 5. Use `asyncio.gather()` or `asyncio.create_task()` to run   │
-│ independent operations concurrently for improved performance.                │
+│ entry point to properly manage the event loop lifecycle and cleanup. 2.      │
+│ Always await coroutines to ensure they are executed correctly. 3. Prefer     │
+│ using async context managers (`async with`) for robust resource management.  │
+│ 4. Avoid blocking the event loop with long-running synchronous code or       │
+│ blocking calls (like `time.sleep()`).                                        │
 ╰──────────────────────────────────────────────────────────────────────────────╯
+🔄 Execution Trace (5 iterations · 4 tool call(s) · 45.1s total)
+├── Iter 1 · Search for 'Python asyncio best practices'.
+│   └── 🧠 Memory → 👁️ Perception → 🤔 Decision → ⚡ Action(web_search) ✓
+├── Iter 2 · Fetch the first search result URL.
+│   └── 🧠 Memory → 👁️ Perception → 🤔 Decision → ⚡ Action(fetch_url) ✓
+├── Iter 3 · Fetch the second search result URL.
+│   └── 🧠 Memory → 👁️ Perception → 🤔 Decision → ⚡ Action(fetch_url) ✓
+├── Iter 4 · Fetch the third search result URL.
+│   └── 🧠 Memory → 👁️ Perception → 🤔 Decision → ⚡ Action(fetch_url) ✓
+└── Iter 5 · Synthesize a numbered list of advice agreed upon by the top …
+    └── 🧠 Memory → 👁️ Perception → 🤔 Decision → 💡 Answer ✓
+⏱️  total: 45.14s
 ```
