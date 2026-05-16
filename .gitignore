@@ -11,6 +11,11 @@ dist/
 build/
 
 # Agent state (regenerated at runtime)
+state/artifacts/*
+!state/artifacts/.gitkeep
+state/memory.json
+tmp_state/*
+!tmp_state/.gitkeep
 sandbox/
 usage.json
 terminal_output.txt

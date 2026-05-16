@@ -1,8 +1,0 @@
-{
-  "id": "art:30e2122eff43c08b",
-  "content_type": "text/plain; charset=utf-8",
-  "size_bytes": 79390,
-  "source": "fetch_url",
-  "descriptor": "[artifact produced by fetch_url, 79390 bytes] preview: {   \"status\": 200,   \"content_type\": \"text/markdown\",   \"length_bytes\": 78050,   \"text\": \"[ ![Real Python](https://realpython.com/static/real-python-logo.893c30edea53.svg) ](https://realpython.com/)\\n  * [Start Here](https://realpython.com/start-here/)\\n  * [ ](https://realpython.com/async-io-python/)\\n###### Start Learning\\n[Your Learning Plan →Your personalized Python learning plan](https://realpython.com/account/onboarding/plan/) [Python Tutorials →In-depth articles and video courses](https://realpython.com/search?kind=article&kind=course&order=newest) [Learning Paths →Guided study plans for accelerated learning](https://realpython.com/learning-paths/)\\n###### Practice\\n[Quizzes & Exercis",
-  "created_at": "2026-05-16T11:45:06.758548Z"
-}

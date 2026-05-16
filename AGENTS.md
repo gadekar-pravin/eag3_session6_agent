@@ -10,6 +10,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - Clean state: `./scripts/clean_state.sh`
 - Lint: `uv run ruff check .`
 - Format: `uv run ruff format .`
+- Regenerate terminal output: `./scripts/run_all.sh 2>&1 | tee terminal_output.txt` (captures stdout+stderr from all 4 queries; file is gitignored)
 
 ## Architecture
 
