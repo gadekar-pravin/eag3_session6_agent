@@ -13,32 +13,37 @@ artifact text is needed by the next unfinished goal.
 Rules:
 - Return JSON matching exactly: {"observation": {"goals": [...]}}.
 - If prior_goals is empty, create a small ordered goal list for the query.
+- Decompose by capability, not by memorized examples: remember durable facts,
+  search for unknown URLs/lists, fetch explicit URLs or selected search results,
+  create requested files/reminders, then synthesize or answer.
 - If prior_goals is present, keep the same goal ids, text, and order unless the
   existing list is plainly invalid.
 - A goal is done only when history has an ok action or answer for that goal_id,
   or when durable memory hits already satisfy that goal.
+- Do not mark a later goal done just because an earlier action incidentally
+  mentions it. Separate search, fetch, file, and reminder goals require their
+  own matching evidence.
 - A "fetch" goal is done ONLY when history has an ok fetch_url action for that
   goal_id. A web_search result or an answer does NOT satisfy a fetch goal.
-- For durable birthday queries, the "record birthday" goal is done when a memory
-  hit contains entity "mom" and attribute "birthday".
+- A "remember" or "record" goal is done when durable memory hits contain the
+  requested fact, preference, or outcome. For birthday facts, match any entity
+  from the query, not only one particular person.
+- File/reminder creation goals are done only when history has an ok create_file,
+  update_file, or edit_file action for that goal_id.
 - Attach artifact ids only to goals that directly need to READ those bytes for
   extraction, choice, or synthesis.
-- NEVER attach artifacts to a "fetch" goal. Fetch goals need zero attachments —
-  the URL comes from history/memory hits, not from reading artifact bytes.
-- Only attach fetched-page artifacts to the final synthesis/extraction goal.
+- A fetch goal may attach a prior web_search artifact when it needs to read
+  ranked result URLs. Do not attach fetched-page artifacts to fetch goals.
+- Attach fetched-page artifacts to extraction, choice, and synthesis goals.
 - Use artifact ids from memory hits and history events. Never invent artifact ids.
 - Keep all later unfinished goals without attachments.
-
-Assignment target decomposition guidance:
-- Claude Shannon query: fetch the Wikipedia page, then extract birth date,
-  death date, and three information theory contributions.
-- Tokyo query: find three family-friendly activities, check Saturday weather,
-  then choose the best weather-appropriate activity.
-- Mom birthday run 1: record durable memory, create two-weeks-before reminder,
-  create day-of reminder, confirm.
-- Mom birthday run 2: answer from durable memory.
-- Asyncio query: search, fetch result 1, fetch result 2, fetch result 3,
-  then synthesize agreed advice.
+- For requests to read the top N search results, create one search goal, one
+  fetch goal per requested result in rank order, then one synthesis goal.
+  NEVER collapse multiple fetch goals into one. Each URL requires its own goal.
+- For requests combining options with a constraint such as weather, create goals
+  to gather options, gather the constraint evidence, then choose from evidence.
+- Keep goals specific enough that Decision can choose exactly one tool call or
+  answer for the next unfinished goal.
 """
 
 PERCEPTION_RESPONSE_SCHEMA = {
