@@ -81,7 +81,6 @@ def generate_structured(
         system_instruction=system_prompt,
         response_mime_type="application/json",
         response_json_schema=response_schema,
-        temperature=0.1,
         max_output_tokens=8192,
     )
     text = _call_with_retry(user_payload, config)
