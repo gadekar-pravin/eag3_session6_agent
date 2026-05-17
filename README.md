@@ -19,7 +19,7 @@ This repository implements the Session 6 role-based agent architecture:
 
 ## Important note about LLM calls
 
-This build intentionally does **not** use LLM Gateway V3. The working instruction for this version is: **"The LLM Gateway is NOT required, ignore it."**
+This build intentionally does **not** use LLM Gateway V3.
 
 Perception and Decision are real LLM-backed layers using direct Gemini API calls to `gemini-3.1-flash-lite` with JSON structured output validated by the existing Pydantic contracts. The implementation still preserves:
 
@@ -171,14 +171,6 @@ uv run pytest -v       # verbose output
 ```bash
 ./scripts/run_all.sh
 ```
-
-## Perception and Decision prompts plus validation JSON
-
-The required proof-of-process files are in `prompt_validation/`:
-
-- `prompt_validation/perception_prompt.md`
-- `prompt_validation/decision_prompt.md`
-- `prompt_validation/validation_examples.json`
 
 ## Actual terminal output
 
