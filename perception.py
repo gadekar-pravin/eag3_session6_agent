@@ -10,6 +10,20 @@ decompose the original query into bounded goals, preserve goal identity across
 iterations, mark goals done from evidence, and attach artifact ids when raw
 artifact text is needed by the next unfinished goal.
 
+Private step-by-step procedure:
+1. Identify the reasoning type for each goal before deciding it: planning,
+   memory-check, evidence-verification, artifact-routing, or synthesis-support.
+2. Reason over the query, durable memory hits, prior goals, and history in that
+   order. Perception never calls tools; it only prepares the next observable
+   state for the conversation loop.
+3. Separate reasoning from tool work: create goals for search, fetch, file, or
+   reminder actions, but leave the actual tool choice to Decision.
+4. Self-check every goal before returning: goal identity is stable, done flags
+   have matching evidence, artifact ids are copied from input, and the next
+   unfinished goal is specific enough for one Decision step.
+5. Emit only the final PerceptionOutput JSON. Do not include your private
+   reasoning, reasoning-type labels, markdown, or explanations in the output.
+
 Rules:
 - Return JSON matching exactly: {"observation": {"goals": [...]}}.
 - If prior_goals is empty, create a small ordered goal list for the query.
@@ -44,6 +58,43 @@ Rules:
   to gather options, gather the constraint evidence, then choose from evidence.
 - Keep goals specific enough that Decision can choose exactly one tool call or
   answer for the next unfinished goal.
+
+Conversation loop support:
+- On the first turn, build the ordered goal list from the query.
+- On later turns, update only from prior_goals, history, memory hits, and known
+  artifact handles. This lets the loop incorporate results from previous tool
+  calls without drifting to a new plan.
+- If a prior tool action failed, keep the goal unfinished unless a later ok
+  action or memory hit satisfies it. Let Decision retry or explain the failure.
+
+Fallbacks and uncertainty:
+- If evidence is missing, keep the relevant goal unfinished instead of guessing.
+- If the current goal needs raw artifact bytes but no valid artifact id is
+  visible in memory hits or history, leave attachments empty and keep the goal
+  unfinished so Decision can request more evidence or report the limitation.
+- Never invent facts, URLs, file paths, tool results, or artifact ids.
+
+Examples:
+- Initial decomposition:
+  Input query: "Search for Python asyncio best practices. Get the top three
+  results and give me a short numbered list of the advice they agree on."
+  Output shape:
+  {"observation": {"goals": [
+    {"id": "goal_1", "text": "Search for Python asyncio best practices",
+     "done": false, "attach_artifact_id": null, "attach_artifact_ids": []},
+    {"id": "goal_2", "text": "Fetch the top search result for Python asyncio best practices",
+     "done": false, "attach_artifact_id": null, "attach_artifact_ids": []},
+    {"id": "goal_3", "text": "Fetch the second search result for Python asyncio best practices",
+     "done": false, "attach_artifact_id": null, "attach_artifact_ids": []},
+    {"id": "goal_4", "text": "Fetch the third search result for Python asyncio best practices",
+     "done": false, "attach_artifact_id": null, "attach_artifact_ids": []},
+    {"id": "goal_5", "text": "Synthesize the advice that the three fetched results agree on",
+     "done": false, "attach_artifact_id": null, "attach_artifact_ids": []}
+  ]}}
+- Update after history:
+  If history contains an ok fetch_url action for goal_2 with artifact_id
+  "art:abc123", mark only goal_2 done. Attach "art:abc123" later to the
+  synthesis goal, not to another fetch goal.
 """
 
 PERCEPTION_RESPONSE_SCHEMA = {

@@ -12,6 +12,20 @@ single supplied goal. Return exactly one of:
 - {"answer": "...", "tool_call": null}
 - {"answer": null, "tool_call": {"name": "...", "arguments": {...}}}
 
+Private step-by-step procedure:
+1. Identify the reasoning type for the supplied goal: lookup, fetch, file,
+   arithmetic/time, extraction, comparison, choice, synthesis, or confirmation.
+2. Think before you answer: inspect the goal, available tools, memory hits,
+   history, and attached artifact text. Decide whether the goal needs external
+   computation/tool use or can be answered from already-provided evidence.
+3. Separate reasoning from tools: if external work is needed, return exactly one
+   tool_call. If evidence is already sufficient, return exactly one answer.
+4. Self-check before returning: exactly one output field is non-null, the tool is
+   listed in DecisionInput.tools, arguments come from input evidence, no "art:"
+   handle is used as a path or URL, and any answer is supported by evidence.
+5. Emit only the final DecisionOutput JSON. Do not include private reasoning,
+   reasoning-type labels, markdown, or explanations outside the answer string.
+
 Rules:
 - Use only tools listed in DecisionInput.tools.
 - Never pass an "art:" artifact id as a tool url or path.
@@ -53,6 +67,39 @@ Rules:
   shows successful file actions.
 - For synthesis goals with multiple attached artifacts, use all attached source
   texts and return only points supported by the evidence.
+
+Conversation loop support:
+- Treat DecisionInput.history as the record of previous steps. If a prior tool
+  failed and better arguments are available, retry with one corrected tool_call.
+- If a prior ok action or attached artifact already satisfies the goal, answer
+  directly and do not call another tool.
+- Work only on the current goal because Perception will re-read history and move
+  the loop to the next unfinished goal.
+
+Fallbacks and uncertainty:
+- If evidence is insufficient and a relevant listed tool can gather it, call that
+  tool instead of guessing.
+- If the goal requires a tool but no listed tool can perform it, answer with a
+  concise limitation and the missing capability.
+- If a fetch goal has no explicit URL and no URL can be found in query, goal,
+  hits, history, or attached_artifacts, use web_search first when it is listed
+  and suitable for discovering the URL. Only answer with a concise limitation if
+  no listed tool can discover or fetch the URL; do not invent one.
+- If attached artifact text is empty, irrelevant, or contradictory, say what is
+  missing or uncertain rather than hallucinating a final answer.
+
+Examples:
+- Tool step:
+  Goal: "Fetch the Wikipedia page for Claude Shannon"
+  Output:
+  {"answer": null, "tool_call": {"name": "fetch_url",
+   "arguments": {"url": "https://en.wikipedia.org/wiki/Claude_Shannon"}}}
+- Answer step:
+  Goal: "Extract Claude Shannon's birth date, death date, and three key
+  contributions to information theory"
+  Attached artifact contains the page text.
+  Output:
+  {"answer": "Claude Shannon was born on ...", "tool_call": null}
 """
 
 DECISION_RESPONSE_SCHEMA = {
