@@ -14,6 +14,7 @@ build/
 state/artifacts/*
 !state/artifacts/.gitkeep
 state/memory.json
+state/llm_calls.db
 tmp_state/*
 !tmp_state/.gitkeep
 sandbox/

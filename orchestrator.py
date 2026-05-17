@@ -16,6 +16,7 @@ from rich.panel import Panel
 from rich.rule import Rule
 from rich.tree import Tree
 
+import llm_log
 from action import Action, ArtifactStore
 from decision import Decision
 from llm import require_gemini_configured
@@ -121,6 +122,7 @@ async def run(
     run_id = uuid4().hex[:8]
     require_gemini_configured()
     llm_usage.reset()
+    llm_log.init(state_dir)
     run_start = time.perf_counter()
 
     memory = Memory(state_dir)
@@ -322,6 +324,7 @@ async def run(
                 if trace:
                     _con.print(f"[bold red]🛑 max iterations reached: {max_iterations}[/]")
 
+    llm_log.close()
     answer = final_answer_from(history)
     if trace:
         _con.print()

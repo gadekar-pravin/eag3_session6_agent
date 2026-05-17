@@ -86,4 +86,5 @@ class Perception:
             user_payload=perception_input.model_dump_json(indent=2),
             output_model=PerceptionOutput,
             response_schema=PERCEPTION_RESPONSE_SCHEMA,
+            role="perception",
         )

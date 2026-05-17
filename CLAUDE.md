@@ -39,6 +39,7 @@ Orchestration loop in `orchestrator.py` (max 14 iterations): Memory.read → Per
 - **Tavily monthly cap**: Soft cap at 950/1000 calls tracked in `usage.json`. Exceeding cap falls back to DuckDuckGo (ddgs).
 - **LLM Gateway**: Direct Gemini SDK used (`google-genai`) instead of LLM Gateway V3. See README for rationale.
 - **Assignment-specific prompts**: Perception and Decision system prompts contain per-query guidance for the four assignment targets. This is intentional for reliability within scope.
+- **Prompt caching not active**: Gemini requires >= 32,768 tokens for cached content. Our system prompts are ~2000-4000 tokens, well below threshold. The constant `_CACHE_MIN_TOKENS` in `llm.py` documents this for future reference.
 
 ## Environment Variables
 
@@ -49,6 +50,7 @@ Orchestration loop in `orchestrator.py` (max 14 iterations): Memory.read → Per
 
 - `state/memory.json` — durable memory across runs (facts, preferences, tool outcomes)
 - `state/artifacts/` — content-addressed binaries (.bin) + metadata (.json)
+- `state/llm_calls.db` — SQLite log of every LLM call (role, tokens, latency, status)
 - `usage.json` — monthly API call tracking
 - `sandbox/` — sandboxed file operations for MCP tools
 

@@ -119,6 +119,7 @@ class Decision:
             user_payload=decision_input.model_dump_json(indent=2),
             output_model=DecisionOutput,
             response_schema=DECISION_RESPONSE_SCHEMA,
+            role="decision",
         )
         if output.is_answer and _is_fetch_goal(decision_input.goal.text):
             retry = generate_structured(
@@ -132,6 +133,7 @@ class Decision:
                 user_payload=decision_input.model_dump_json(indent=2),
                 output_model=DecisionOutput,
                 response_schema=DECISION_RESPONSE_SCHEMA,
+                role="decision_retry",
             )
             if not retry.is_answer:
                 return retry
