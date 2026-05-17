@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Run agent: `uv run python orchestrator.py --clean "<query>"` (--clean resets state before running)
 - Run all test queries: `./scripts/run_all.sh`
 - Clean state: `./scripts/clean_state.sh`
+- Test: `uv run pytest` (or `uv run pytest -v` for verbose)
 - Lint: `uv run ruff check .`
 - Format: `uv run ruff format .`
 - Regenerate terminal output: `./scripts/run_all.sh 2>&1 | tee terminal_output.txt` (captures stdout+stderr from all 4 queries; file is gitignored)

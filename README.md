@@ -157,6 +157,15 @@ Expected final answer shape:
 
 Expected loop behavior: search top 3 results, fetch each result, store large pages as artifacts, attach artifacts to synthesis goal, answer, verify done. Usually 6 iterations.
 
+## Tests
+
+Unit tests cover pure logic across all modules (schemas, memory, decision, action, mcp_server sandbox):
+
+```bash
+uv run pytest          # 57 tests, ~1s
+uv run pytest -v       # verbose output
+```
+
 ## Run all four checks
 
 ```bash
