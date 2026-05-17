@@ -17,25 +17,67 @@ from schemas import (
 )
 
 STOPWORDS = {
-    "a", "an", "and", "are", "as", "at", "be", "by", "for", "from", "give",
-    "has", "have", "i", "in", "is", "it", "me", "my", "of", "on", "or", "the",
-    "there", "this", "to", "we", "what", "when", "where", "which", "with", "you",
+    "a",
+    "an",
+    "and",
+    "are",
+    "as",
+    "at",
+    "be",
+    "by",
+    "for",
+    "from",
+    "give",
+    "has",
+    "have",
+    "i",
+    "in",
+    "is",
+    "it",
+    "me",
+    "my",
+    "of",
+    "on",
+    "or",
+    "the",
+    "there",
+    "this",
+    "to",
+    "we",
+    "what",
+    "when",
+    "where",
+    "which",
+    "with",
+    "you",
 }
 
 
 MONTHS = {
-    "january": 1, "jan": 1,
-    "february": 2, "feb": 2,
-    "march": 3, "mar": 3,
-    "april": 4, "apr": 4,
+    "january": 1,
+    "jan": 1,
+    "february": 2,
+    "feb": 2,
+    "march": 3,
+    "mar": 3,
+    "april": 4,
+    "apr": 4,
     "may": 5,
-    "june": 6, "jun": 6,
-    "july": 7, "jul": 7,
-    "august": 8, "aug": 8,
-    "september": 9, "sep": 9, "sept": 9,
-    "october": 10, "oct": 10,
-    "november": 11, "nov": 11,
-    "december": 12, "dec": 12,
+    "june": 6,
+    "jun": 6,
+    "july": 7,
+    "jul": 7,
+    "august": 8,
+    "aug": 8,
+    "september": 9,
+    "sep": 9,
+    "sept": 9,
+    "october": 10,
+    "oct": 10,
+    "november": 11,
+    "nov": 11,
+    "december": 12,
+    "dec": 12,
 }
 
 FAMILY_ALIASES = {
@@ -306,15 +348,16 @@ class Memory:
     def _human_date(value: date) -> str:
         return f"{value.day} {value.strftime('%B %Y')}"
 
-    def record_outcome(self, outcome_input: MemoryOutcomeInput) -> MemoryItem:
+    def record_outcome(self, outcome_input: MemoryOutcomeInput) -> MemoryItem | None:
+        if not outcome_input.ok:
+            return None
         args_text = json.dumps(
             outcome_input.tool_call.arguments, ensure_ascii=False, sort_keys=True
         )
         descriptor = outcome_input.result_text[:220].replace("\n", " ")
         if outcome_input.artifact_id:
             descriptor = (
-                f"{outcome_input.tool_call.name}({args_text}) "
-                f"produced {outcome_input.artifact_id}."
+                f"{outcome_input.tool_call.name}({args_text}) produced {outcome_input.artifact_id}."
             )
         item = MemoryItem(
             kind="tool_outcome",

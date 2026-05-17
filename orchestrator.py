@@ -244,6 +244,12 @@ async def run(
                     continue
 
                 assert decision_out.tool_call is not None
+                allowed = {t.name for t in mcp_tools}
+                if decision_out.tool_call.name not in allowed:
+                    if trace:
+                        bad = escape(decision_out.tool_call.name)
+                        _con.print(f"[red]⚠️  unknown tool '{bad}', skipping[/]")
+                    continue
                 if trace:
                     tc = decision_out.tool_call
                     name = f"[bold]{escape(tc.name)}[/]"
@@ -259,6 +265,7 @@ async def run(
                     MemoryOutcomeInput(
                         tool_call=decision_out.tool_call,
                         result_text=action_out.descriptor or action_out.result_text,
+                        ok=action_out.ok,
                         artifact_id=action_out.artifact_id,
                         run_id=run_id,
                         goal_id=goal.id,

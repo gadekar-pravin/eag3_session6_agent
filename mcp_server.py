@@ -15,6 +15,7 @@ File tools are sandboxed under ./sandbox/. Run:  python mcp_server.py
 
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 import threading
@@ -27,7 +28,7 @@ from ddgs import DDGS
 from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 
-MAX_SEARCH_RESULTS = 5  # hard cap — Tavily prices per result
+MAX_SEARCH_RESULTS = 5  # hard cap per query
 
 load_dotenv(Path(__file__).parent / ".env")
 
@@ -185,7 +186,7 @@ async def fetch_url(url: str, timeout: int = 20) -> dict:
 
     Example: fetch_url("https://example.com").
     """
-    return await _crawl4ai_fetch(url)
+    return await asyncio.wait_for(_crawl4ai_fetch(url), timeout=timeout)
 
 
 @mcp.tool()
@@ -248,11 +249,13 @@ def list_dir(path: str = ".") -> list[dict]:
     out = []
     for child in sorted(p.iterdir()):
         is_dir = child.is_dir()
-        out.append({
-            "name": child.name,
-            "type": "dir" if is_dir else "file",
-            "size_bytes": 0 if is_dir else child.stat().st_size,
-        })
+        out.append(
+            {
+                "name": child.name,
+                "type": "dir" if is_dir else "file",
+                "size_bytes": 0 if is_dir else child.stat().st_size,
+            }
+        )
     return out
 
 
@@ -290,9 +293,7 @@ def edit_file(path: str, find: str, replace: str, replace_all: bool = False) -> 
     if count == 0:
         raise ValueError(f"'{find}' not found in '{path}'")
     if count > 1 and not replace_all:
-        raise ValueError(
-            f"'{find}' occurs {count} times in '{path}'; pass replace_all=True"
-        )
+        raise ValueError(f"'{find}' occurs {count} times in '{path}'; pass replace_all=True")
     if replace_all:
         new_text = text.replace(find, replace)
     else:

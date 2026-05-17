@@ -122,8 +122,7 @@ class Action:
         if len(blob) > ARTIFACT_THRESHOLD_BYTES:
             preview = text[:700].replace("\n", " ")
             descriptor = (
-                f"[artifact produced by {tool_call.name}, "
-                f"{len(blob)} bytes] preview: {preview}"
+                f"[artifact produced by {tool_call.name}, {len(blob)} bytes] preview: {preview}"
             )
             artifact_id = self.artifacts.put(
                 blob,

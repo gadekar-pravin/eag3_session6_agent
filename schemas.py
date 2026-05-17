@@ -135,6 +135,7 @@ class MemoryRememberOutput(BaseModel):
 class MemoryOutcomeInput(BaseModel):
     tool_call: ToolCall
     result_text: str
+    ok: bool = True
     artifact_id: str | None = None
     run_id: str
     goal_id: str | None = None
