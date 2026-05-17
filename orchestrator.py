@@ -19,6 +19,7 @@ from rich.tree import Tree
 from action import Action, ArtifactStore
 from decision import Decision
 from llm import require_gemini_configured
+from llm import usage as llm_usage
 from memory import Memory
 from perception import Perception
 from schemas import (
@@ -33,6 +34,10 @@ from schemas import (
 )
 
 MAX_ITERATIONS = 14
+
+# Gemini 3.1 Flash Lite approximate pricing (USD per 1M tokens)
+_PRICE_PER_M_INPUT = 0.25
+_PRICE_PER_M_OUTPUT = 1.50
 
 _con = Console(highlight=False)
 _err = Console(stderr=True, highlight=False)
@@ -70,6 +75,21 @@ def tool_specs_from_mcp(list_tools_result) -> list[ToolSpec]:
     return specs
 
 
+def _print_usage_summary() -> None:
+    cost = (
+        llm_usage.prompt_tokens * _PRICE_PER_M_INPUT / 1_000_000
+        + llm_usage.completion_tokens * _PRICE_PER_M_OUTPUT / 1_000_000
+    )
+    prompt_t = f"{llm_usage.prompt_tokens:,}"
+    comp_t = f"{llm_usage.completion_tokens:,}"
+    total_t = f"{llm_usage.total_tokens:,}"
+    _con.print(
+        f"💰 LLM Usage: {llm_usage.call_count} calls · "
+        f"{prompt_t} prompt + {comp_t} completion = {total_t} total tokens · "
+        f"~${cost:.4f}"
+    )
+
+
 def _print_trace_tree(history: list[HistoryEvent], total_elapsed: float = 0.0) -> None:
     tool_count = sum(1 for e in history if e.kind == "action")
     time_str = f" · {total_elapsed:.1f}s total" if total_elapsed else ""
@@ -100,6 +120,7 @@ async def run(
     repo_dir = Path(__file__).resolve().parent
     run_id = uuid4().hex[:8]
     require_gemini_configured()
+    llm_usage.reset()
     run_start = time.perf_counter()
 
     memory = Memory(state_dir)
@@ -309,6 +330,8 @@ async def run(
         if history:
             _print_trace_tree(history, total_elapsed)
         _con.print(f"⏱️  total: {total_elapsed:.2f}s")
+        if llm_usage.call_count > 0:
+            _print_usage_summary()
     return answer
 
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import time
+from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 from typing import TypeVar
@@ -14,6 +15,29 @@ from pydantic import BaseModel, ValidationError
 MODEL_NAME = "gemini-3.1-flash-lite"
 
 T = TypeVar("T", bound=BaseModel)
+
+
+@dataclass
+class UsageAccumulator:
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
+    total_tokens: int = 0
+    call_count: int = 0
+
+    def add(self, prompt: int, completion: int, total: int) -> None:
+        self.prompt_tokens += prompt
+        self.completion_tokens += completion
+        self.total_tokens += total
+        self.call_count += 1
+
+    def reset(self) -> None:
+        self.prompt_tokens = 0
+        self.completion_tokens = 0
+        self.total_tokens = 0
+        self.call_count = 0
+
+
+usage = UsageAccumulator()
 
 
 load_dotenv(Path(__file__).parent / ".env")
@@ -54,6 +78,13 @@ def _call_with_retry(contents: str, config: types.GenerateContentConfig) -> str:
                 contents=contents,
                 config=config,
             )
+            meta = getattr(response, "usage_metadata", None)
+            if meta:
+                usage.add(
+                    prompt=getattr(meta, "prompt_token_count", 0) or 0,
+                    completion=getattr(meta, "candidates_token_count", 0) or 0,
+                    total=getattr(meta, "total_token_count", 0) or 0,
+                )
             return response.text or ""
         except Exception as e:  # noqa: BLE001
             status = getattr(e, "status_code", None) or getattr(e, "code", None)
