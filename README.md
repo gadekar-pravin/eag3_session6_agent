@@ -15,6 +15,8 @@ This repository implements the Session 6 role-based agent architecture:
 
 ![Agent Loop Runner Infographic](infographic.png)
 
+![Orchestrator Loop Logic Flow](orchestrator_flow.svg)
+
 ## Important note about LLM calls
 
 This build intentionally does **not** use LLM Gateway V3. The working instruction for this version is: **"The LLM Gateway is NOT required, ignore it."**

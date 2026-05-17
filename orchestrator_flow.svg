@@ -1,0 +1,321 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1650" font-family="'Segoe UI',Roboto,'Helvetica Neue',system-ui,sans-serif">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="20%" r="95%">
+      <stop offset="0%" stop-color="#141d35"/>
+      <stop offset="62%" stop-color="#0c1322"/>
+      <stop offset="100%" stop-color="#080c17"/>
+    </radialGradient>
+    <linearGradient id="boxg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2440"/>
+      <stop offset="100%" stop-color="#111a2f"/>
+    </linearGradient>
+    <linearGradient id="loopg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#101a33" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0c1426" stop-opacity="0.85"/>
+    </linearGradient>
+    <filter id="soft" x="-45%" y="-45%" width="190%" height="190%">
+      <feGaussianBlur stdDeviation="5.5"/>
+    </filter>
+    <filter id="softbig" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+    <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 L3,5 Z" fill="#aeb9d4"/>
+    </marker>
+    <marker id="ahP" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 L3,5 Z" fill="#a9b2f6"/>
+    </marker>
+    <marker id="ahB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7.5" markerHeight="7.5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 L3,5 Z" fill="#fb9aa6"/>
+    </marker>
+    <marker id="ahG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 L3,5 Z" fill="#6ee7b7"/>
+    </marker>
+    <style>
+      .mn{font-family:'SF Mono',ui-monospace,'Cascadia Mono',Menlo,Consolas,monospace}
+      .title{fill:#f3f6fc;font-size:31px;font-weight:700;letter-spacing:.3px}
+      .sub{fill:#8f9fc0;font-size:14.5px}
+      .rg{fill:#aab8d8;font-size:13px;font-weight:700;letter-spacing:2.5px}
+      .bt{fill:#eef2fb;font-size:16px;font-weight:600}
+      .btm{fill:#eef2fb;font-size:15px;font-weight:600}
+      .bs{fill:#94a3c1;font-size:12px}
+      .badge{fill:#d4dcf0;font-size:11.5px;font-weight:600}
+      .note{fill:#8b9ab9;font-size:11px;font-style:italic}
+      .buslab{fill:#9aa6cc;font-size:12.5px;font-weight:700;letter-spacing:1.5px}
+      .icn{font-size:15px}
+      .box{fill:url(#boxg);stroke-width:1.6}
+      .glow{opacity:0;fill:none;stroke:currentColor;stroke-width:3.2;
+            animation:flash 16s linear infinite}
+      .conn{fill:none;stroke:#4a5a80;stroke-width:2.2;stroke-dasharray:10 10;
+            animation:flow 2.1s linear infinite}
+      .bus{fill:none;stroke-width:2.4;stroke-dasharray:11 9;
+            animation:flow 1.5s linear infinite}
+      .frame{fill:none;stroke:#6c7cc6;stroke-width:1.6;stroke-dasharray:3 13;opacity:.6;
+            animation:flowF 7s linear infinite}
+      .breathe{animation:breathe 3.4s ease-in-out infinite}
+      @keyframes flash{0%,100%{opacity:0}2%{opacity:.95}9%{opacity:.95}13%{opacity:0}}
+      @keyframes flow{to{stroke-dashoffset:-100}}
+      @keyframes flowF{to{stroke-dashoffset:-128}}
+      @keyframes breathe{0%,100%{opacity:.12}50%{opacity:.5}}
+    </style>
+  </defs>
+
+  <rect width="1100" height="1650" fill="url(#bg)"/>
+
+  <!-- ===================== TITLE ===================== -->
+  <text class="title" x="550" y="52" text-anchor="middle">orchestrator.py &#8212; Agent Loop Logic Flow</text>
+  <text class="sub" x="550" y="80" text-anchor="middle">Animated walkthrough of the agentic loop &#8901; Memory &#8594; Perception &#8594; Decision &#8594; Action</text>
+
+  <!-- ===================== REGION 1: SETUP ===================== -->
+  <text class="rg" x="100" y="116">&#9312; SETUP &#8901; RUNS ONCE</text>
+
+  <!-- query input pill -->
+  <rect x="64" y="135" width="150" height="28" rx="14" fill="#16213c" stroke="#3c4a6e"/>
+  <text class="badge" x="139" y="153" text-anchor="middle">&#9654;  user query</text>
+  <path class="conn" d="M214 149 L 236 149" marker-end="url(#ah)"/>
+
+  <!-- S1 -->
+  <g>
+    <rect class="box" x="240" y="120" width="620" height="56" rx="14" stroke="#5a6480"/>
+    <rect class="glow" x="240" y="120" width="620" height="56" rx="14" filter="url(#soft)" style="color:#94a3b8;animation-delay:0s"/>
+    <circle cx="274" cy="148" r="15" fill="#94a3b8" fill-opacity="0.16" stroke="#94a3b8" stroke-opacity="0.5"/>
+    <text class="icn" x="274" y="153" text-anchor="middle">&#9654;</text>
+    <text class="btm mn" x="302" y="144">main()  &#8212;  CLI entry point</text>
+    <text class="bs" x="302" y="163">argparse &#8594; query + flags  &#8901;  --clean wipes state/ via clean_state()</text>
+  </g>
+  <path class="conn" d="M550 176 L 550 196" marker-end="url(#ah)"/>
+
+  <!-- S2 -->
+  <g>
+    <rect class="box" x="240" y="198" width="620" height="56" rx="14" stroke="#5a5a8c"/>
+    <rect class="glow" x="240" y="198" width="620" height="56" rx="14" filter="url(#soft)" style="color:#a78bfa;animation-delay:1s"/>
+    <circle cx="274" cy="226" r="15" fill="#a78bfa" fill-opacity="0.16" stroke="#a78bfa" stroke-opacity="0.5"/>
+    <text class="icn" x="274" y="231" text-anchor="middle">&#128640;</text>
+    <text class="btm mn" x="302" y="222">run(query)  &#8212;  async entry point</text>
+    <text class="bs" x="302" y="241">run_id = uuid4()[:8]  &#8901;  require_gemini_configured()  &#8901;  start perf timer</text>
+  </g>
+  <path class="conn" d="M550 254 L 550 274" marker-end="url(#ah)"/>
+
+  <!-- S3 -->
+  <g>
+    <rect class="box" x="240" y="276" width="620" height="56" rx="14" stroke="#5a5a8c"/>
+    <rect class="glow" x="240" y="276" width="620" height="56" rx="14" filter="url(#soft)" style="color:#a78bfa;animation-delay:2s"/>
+    <circle cx="274" cy="304" r="15" fill="#a78bfa" fill-opacity="0.16" stroke="#a78bfa" stroke-opacity="0.5"/>
+    <text class="icn" x="274" y="309" text-anchor="middle">&#129513;</text>
+    <text class="bt" x="302" y="300">instantiate the five components</text>
+    <text class="bs" x="302" y="319">Memory  &#8901;  ArtifactStore  &#8901;  Perception  &#8901;  Decision  &#8901;  Action</text>
+  </g>
+  <path class="conn" d="M550 332 L 550 352" marker-end="url(#ah)"/>
+
+  <!-- S4 -->
+  <g>
+    <rect class="box" x="240" y="354" width="620" height="56" rx="14" stroke="#1f6f86"/>
+    <rect class="glow" x="240" y="354" width="620" height="56" rx="14" filter="url(#soft)" style="color:#22d3ee;animation-delay:3s"/>
+    <circle cx="274" cy="382" r="15" fill="#22d3ee" fill-opacity="0.16" stroke="#22d3ee" stroke-opacity="0.5"/>
+    <text class="icn" x="274" y="387" text-anchor="middle">&#129504;</text>
+    <text class="btm mn" x="302" y="378">memory.remember(query)</text>
+    <text class="bs" x="302" y="397">store the user query into durable memory (state_dir)</text>
+  </g>
+  <path class="conn" d="M550 410 L 550 430" marker-end="url(#ah)"/>
+
+  <!-- S5 -->
+  <g>
+    <rect class="box" x="240" y="432" width="620" height="58" rx="14" stroke="#2c4f86"/>
+    <rect class="glow" x="240" y="432" width="620" height="58" rx="14" filter="url(#soft)" style="color:#60a5fa;animation-delay:4s"/>
+    <circle cx="274" cy="461" r="15" fill="#60a5fa" fill-opacity="0.16" stroke="#60a5fa" stroke-opacity="0.5"/>
+    <text class="icn" x="274" y="466" text-anchor="middle">&#128268;</text>
+    <text class="bt" x="302" y="457">launch MCP server  &#8212;  stdio_client(mcp_server.py)</text>
+    <text class="bs" x="302" y="476">ClientSession &#8594; initialize() &#8594; list_tools() &#8594; tool_specs_from_mcp()</text>
+  </g>
+  <path class="conn" d="M550 490 C 550 506 595 510 595 540 L 595 576" marker-end="url(#ah)"/>
+
+  <!-- ===================== REGION 2: ITERATION LOOP ===================== -->
+  <rect x="95" y="510" width="910" height="812" rx="20" fill="url(#loopg)" stroke="#3b4a78" stroke-width="1.6"/>
+  <rect class="frame" x="95" y="510" width="910" height="812" rx="20"/>
+  <!-- header band -->
+  <path d="M95 530 a20 20 0 0 1 20 -20 H 985 a20 20 0 0 1 20 20 V 560 H 95 Z" fill="#17213c"/>
+  <text class="rg" x="120" y="544">&#9313; ITERATION LOOP</text>
+  <text class="mn" x="372" y="545" fill="#9fb0d6" font-size="13.5">for iteration in range(1, MAX_ITERATIONS + 1)</text>
+  <text x="828" y="545" fill="#c7a3f0" font-size="13" font-weight="700">&#8635; up to 14 passes</text>
+
+  <!-- L1 -->
+  <g>
+    <rect class="box" x="330" y="580" width="530" height="56" rx="14" stroke="#1f6f86"/>
+    <rect class="glow" x="330" y="580" width="530" height="56" rx="14" filter="url(#soft)" style="color:#22d3ee;animation-delay:5s"/>
+    <circle cx="364" cy="608" r="15" fill="#22d3ee" fill-opacity="0.16" stroke="#22d3ee" stroke-opacity="0.5"/>
+    <text class="icn" x="364" y="613" text-anchor="middle">&#129504;</text>
+    <text class="btm mn" x="392" y="604">memory.read(query, history, top_k=12)</text>
+    <text class="bs" x="392" y="623">retrieve the 12 most relevant memory hits</text>
+  </g>
+  <path class="conn" d="M595 636 L 595 662" marker-end="url(#ah)"/>
+
+  <!-- L2 -->
+  <g>
+    <rect class="box" x="330" y="664" width="530" height="56" rx="14" stroke="#7a3a86"/>
+    <rect class="glow" x="330" y="664" width="530" height="56" rx="14" filter="url(#soft)" style="color:#e879f9;animation-delay:6s"/>
+    <circle cx="364" cy="692" r="15" fill="#e879f9" fill-opacity="0.16" stroke="#e879f9" stroke-opacity="0.5"/>
+    <text class="icn" x="364" y="697" text-anchor="middle">&#128065;</text>
+    <text class="btm mn" x="392" y="688">perception.observe( &#8230; )  &#8594;  goals</text>
+    <text class="bs" x="392" y="707">build observation  &#8901;  prior_goals feeds back into the next pass</text>
+  </g>
+  <path class="conn" d="M595 720 L 595 746" marker-end="url(#ah)"/>
+
+  <!-- L3 branch: all_done? -->
+  <g>
+    <rect class="box" x="330" y="748" width="530" height="66" rx="14" stroke="#8a6a1f"/>
+    <rect class="glow" x="330" y="748" width="530" height="66" rx="14" filter="url(#soft)" style="color:#fbbf24;animation-delay:7s"/>
+    <circle cx="364" cy="781" r="15" fill="#fbbf24" fill-opacity="0.16" stroke="#fbbf24" stroke-opacity="0.5"/>
+    <text class="icn" x="364" y="786" text-anchor="middle">&#128256;</text>
+    <text class="bt" x="392" y="777">decision point  &#8212;  obs.all_done ?</text>
+    <text class="bs" x="392" y="797">have every goal been satisfied?</text>
+  </g>
+  <!-- L3 -> L4 (False) -->
+  <path class="conn" d="M595 814 L 595 854" marker-end="url(#ah)"/>
+  <rect x="606" y="824" width="116" height="20" rx="10" fill="#1b2138" stroke="#5a4f2a"/>
+  <text class="badge" x="664" y="838" text-anchor="middle">False &#8901; not done</text>
+  <!-- L3 -> break bus (True) -->
+  <path class="bus" d="M860 779 L 940 779 Q 965 779 965 803 L 965 1300 Q 965 1322 943 1322 L 654 1322"
+        stroke="#fb7185" marker-end="url(#ahB)"/>
+  <rect x="866" y="757" width="120" height="20" rx="10" fill="#2a1620" stroke="#7a3a44"/>
+  <text class="badge" x="926" y="771" text-anchor="middle" fill="#fbbac2">True &#8901; all done</text>
+  <text class="note" x="965" y="800" text-anchor="middle">if no answer yet,</text>
+  <text class="note" x="965" y="814" text-anchor="middle">decision.next_step()</text>
+  <text class="note" x="965" y="828" text-anchor="middle">formulates it first</text>
+
+  <!-- L4 -->
+  <g>
+    <rect class="box" x="330" y="856" width="530" height="56" rx="14" stroke="#5a6480"/>
+    <rect class="glow" x="330" y="856" width="530" height="56" rx="14" filter="url(#soft)" style="color:#94a3b8;animation-delay:8s"/>
+    <circle cx="364" cy="884" r="15" fill="#94a3b8" fill-opacity="0.16" stroke="#94a3b8" stroke-opacity="0.5"/>
+    <text class="icn" x="364" y="889" text-anchor="middle">&#127919;</text>
+    <text class="btm mn" x="392" y="880">goal = obs.next_unfinished()</text>
+    <text class="bs" x="392" y="899">select the next unfinished goal</text>
+  </g>
+  <path class="conn" d="M595 912 L 595 938" marker-end="url(#ah)"/>
+  <!-- L4 -> break bus (None) -->
+  <path class="bus" d="M860 884 L 963 884" stroke="#fb7185" marker-end="url(#ahB)"/>
+  <text class="note" x="893" y="877" fill="#caa">goal is None &#8594; BREAK</text>
+
+  <!-- L5 -->
+  <g>
+    <rect class="box" x="330" y="940" width="530" height="56" rx="14" stroke="#8a5320"/>
+    <rect class="glow" x="330" y="940" width="530" height="56" rx="14" filter="url(#soft)" style="color:#fb923c;animation-delay:9s"/>
+    <circle cx="364" cy="968" r="15" fill="#fb923c" fill-opacity="0.16" stroke="#fb923c" stroke-opacity="0.5"/>
+    <text class="icn" x="364" y="973" text-anchor="middle">&#128206;</text>
+    <text class="bt" x="392" y="964">attach artifacts</text>
+    <text class="bs" x="392" y="983">load each goal attachment id via ArtifactStore.get_text()</text>
+  </g>
+  <path class="conn" d="M595 996 L 595 1022" marker-end="url(#ah)"/>
+
+  <!-- L6 branch: answer or tool? -->
+  <g>
+    <rect class="box" x="330" y="1024" width="530" height="66" rx="14" stroke="#8a6a1f"/>
+    <rect class="glow" x="330" y="1024" width="530" height="66" rx="14" filter="url(#soft)" style="color:#fbbf24;animation-delay:10s"/>
+    <circle cx="364" cy="1057" r="15" fill="#fbbf24" fill-opacity="0.16" stroke="#fbbf24" stroke-opacity="0.5"/>
+    <text class="icn" x="364" y="1062" text-anchor="middle">&#129300;</text>
+    <text class="btm mn" x="392" y="1053">decision.next_step( &#8230; )</text>
+    <text class="bs" x="392" y="1073">branch &#8212; return a final answer, or call a tool?</text>
+  </g>
+  <!-- L6 -> L7 (tool_call) -->
+  <path class="conn" d="M595 1090 L 595 1130" marker-end="url(#ah)"/>
+  <rect x="606" y="1100" width="108" height="20" rx="10" fill="#1b2138" stroke="#5a4f2a"/>
+  <text class="badge" x="660" y="1114" text-anchor="middle">is tool_call</text>
+  <!-- L6 -> continue bus (is_answer) -->
+  <path class="bus" d="M330 1057 L 219 1057" stroke="#818cf8" marker-end="url(#ahP)"/>
+  <text class="note" x="300" y="1043" text-anchor="end" fill="#a9b2f6">is_answer &#8594; append answer, then continue</text>
+
+  <!-- L7 -->
+  <g>
+    <rect class="box" x="330" y="1132" width="530" height="80" rx="16" stroke="#2c4f86"/>
+    <rect class="glow" x="330" y="1132" width="530" height="80" rx="16" filter="url(#soft)" style="color:#60a5fa;animation-delay:11s"/>
+    <circle cx="364" cy="1172" r="15" fill="#60a5fa" fill-opacity="0.16" stroke="#60a5fa" stroke-opacity="0.5"/>
+    <text class="icn" x="364" y="1177" text-anchor="middle">&#9889;</text>
+    <text class="bt" x="392" y="1158">action.execute(session, tool_call)  &#8594;  run MCP tool</text>
+    <text class="bs" x="392" y="1178" fill="#9fd4e8">memory.record_outcome(result, artifact_id)</text>
+    <text class="bs" x="392" y="1197">append HistoryEvent(action)  &#8901;  result_text kept if &#8804; 4096 B</text>
+  </g>
+
+  <!-- for / else note -->
+  <g>
+    <rect x="340" y="1238" width="510" height="48" rx="12" fill="#1a1424" stroke="#5a3a4a" stroke-dasharray="6 5"/>
+    <text class="bt" x="595" y="1259" text-anchor="middle" font-size="13.5" fill="#e7c7d2">for &#8230; else  &#8212;  loop never broke</text>
+    <text class="bs" x="595" y="1276" text-anchor="middle" fill="#b78f9c">&#128721; MAX_ITERATIONS (14) reached &#8594; stop</text>
+  </g>
+  <path class="conn" d="M595 1286 L 595 1330" stroke="#7a5560" marker-end="url(#ahB)"/>
+
+  <!-- ===== CONTINUE bus (left channel) ===== -->
+  <path class="bus" d="M330 1190 L 248 1190 Q 219 1190 219 1163 L 219 636 Q 219 609 248 609 L 330 609"
+        stroke="#818cf8" marker-end="url(#ahP)"/>
+  <text class="buslab" x="188" y="905" text-anchor="middle" transform="rotate(-90 188 905)">CONTINUE  &#8901;  NEXT ITERATION</text>
+  <rect x="158" y="1166" width="166" height="20" rx="10" fill="#171a33" stroke="#3f4480"/>
+  <text class="badge" x="241" y="1180" text-anchor="middle" fill="#b6bdf8">append action event &#8594;</text>
+  <!-- continue comet -->
+  <g>
+    <circle r="10" fill="#818cf8" opacity="0.3" filter="url(#softbig)"/>
+    <circle r="4.5" fill="#dbe1ff"/>
+    <animateMotion dur="3.6s" repeatCount="indefinite"
+      path="M330 1190 L 248 1190 Q 219 1190 219 1163 L 219 636 Q 219 609 248 609 L 330 609"/>
+  </g>
+
+  <!-- ===== BREAK bus label + comet (right channel) ===== -->
+  <text class="buslab" x="998" y="1050" text-anchor="middle" transform="rotate(-90 998 1050)">BREAK  &#8901;  LEAVE THE LOOP</text>
+  <g>
+    <circle r="9" fill="#fb7185" opacity="0.28" filter="url(#softbig)"/>
+    <circle r="4" fill="#ffd9de"/>
+    <animateMotion dur="5.2s" repeatCount="indefinite"
+      path="M860 779 L 940 779 Q 965 779 965 803 L 965 1300 Q 965 1322 943 1322 L 654 1322"/>
+  </g>
+
+  <!-- loop exit hub -->
+  <g>
+    <rect x="450" y="1310" width="200" height="44" rx="22" fill="#171c30" stroke="#5b6488"/>
+    <text class="bt" x="550" y="1338" text-anchor="middle" font-size="14.5">&#8617;  loop exit</text>
+  </g>
+  <path class="conn" d="M550 1354 L 550 1392" stroke="#6e7a9c" marker-end="url(#ahG)"/>
+
+  <!-- ===================== REGION 3: FINALISE ===================== -->
+  <text class="rg" x="100" y="1388">&#9314; FINALISE</text>
+
+  <!-- F1 -->
+  <g>
+    <rect class="box" x="240" y="1394" width="620" height="56" rx="14" stroke="#5a6480"/>
+    <rect class="glow" x="240" y="1394" width="620" height="56" rx="14" filter="url(#soft)" style="color:#94a3b8;animation-delay:13s"/>
+    <circle cx="274" cy="1422" r="15" fill="#94a3b8" fill-opacity="0.16" stroke="#94a3b8" stroke-opacity="0.5"/>
+    <text class="icn" x="274" y="1427" text-anchor="middle">&#128270;</text>
+    <text class="btm mn" x="302" y="1418">final_answer_from(history)</text>
+    <text class="bs" x="302" y="1437">scan history in reverse &#8594; the most recent answer event</text>
+  </g>
+  <path class="conn" d="M550 1450 L 550 1472" stroke="#3f7a5f" marker-end="url(#ahG)"/>
+
+  <!-- F2 -->
+  <g>
+    <rect class="glow breathe" x="240" y="1474" width="620" height="64" rx="15" filter="url(#soft)" style="color:#34d399"/>
+    <rect class="box" x="240" y="1474" width="620" height="64" rx="15" stroke="#2f8a63" stroke-width="2"/>
+    <rect class="glow" x="240" y="1474" width="620" height="64" rx="15" filter="url(#soft)" style="color:#34d399;animation-delay:14s"/>
+    <circle cx="274" cy="1506" r="15" fill="#34d399" fill-opacity="0.18" stroke="#34d399" stroke-opacity="0.6"/>
+    <text class="icn" x="274" y="1511" text-anchor="middle">&#10024;</text>
+    <text class="bt" x="302" y="1502" font-size="17">return answer</text>
+    <text class="bs" x="302" y="1523">when trace: print FINAL panel &#8901; execution-trace tree &#8901; total time</text>
+  </g>
+
+  <!-- ===================== LEGEND ===================== -->
+  <line x1="100" y1="1566" x2="1000" y2="1566" stroke="#283450" stroke-width="1"/>
+  <g font-size="12.5" fill="#aab6d2">
+    <rect x="106" y="1582" width="20" height="14" rx="3" fill="#22d3ee" fill-opacity="0.85"/>
+    <text x="132" y="1593">Memory</text>
+    <rect x="226" y="1582" width="20" height="14" rx="3" fill="#e879f9" fill-opacity="0.85"/>
+    <text x="252" y="1593">Perception</text>
+    <rect x="362" y="1582" width="20" height="14" rx="3" fill="#fbbf24" fill-opacity="0.85"/>
+    <text x="388" y="1593">Decision / branch</text>
+    <rect x="540" y="1582" width="20" height="14" rx="3" fill="#60a5fa" fill-opacity="0.85"/>
+    <text x="566" y="1593">Action</text>
+    <rect x="640" y="1582" width="20" height="14" rx="3" fill="#34d399" fill-opacity="0.85"/>
+    <text x="666" y="1593">Answer / return</text>
+    <rect x="790" y="1582" width="20" height="14" rx="3" fill="#fb923c" fill-opacity="0.85"/>
+    <text x="816" y="1593">Artifacts</text>
+    <rect x="892" y="1582" width="20" height="14" rx="3" fill="#94a3b8" fill-opacity="0.85"/>
+    <text x="918" y="1593">Setup / control</text>
+  </g>
+  <text x="106" y="1618" font-size="11.5" fill="#73809f" font-style="italic">Box colours mirror the rich-console palette defined in _label()  &#8901;  the staggered glow halos trace execution order.</text>
+  <text x="106" y="1635" font-size="11.5" fill="#73809f" font-style="italic">The indigo channel carries CONTINUE (next iteration); the rose channel carries BREAK (leave the loop).</text>
+</svg>
